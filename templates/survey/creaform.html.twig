@@ -1,0 +1,3220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>creaform</title>
+		<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+		<script src="{{asset('js/bootstrap.min.js')}}"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		<script src="https://kit.fontawesome.com/390d861986.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<style>
+
+
+			.sidebar {
+				height: 80%;
+				width: 350px;
+				position: fixed;
+				top: 50%;
+				/* Center the sidebar vertically */
+				left: -350px;
+				background-color: #F5F5FC;
+				padding-top: 60px;
+				transition: 0.3s;
+				transform: translateY(-45%);
+				/* Adjust for vertical centering */
+				overflow-y: auto;
+				/* Enable vertical scrollbar */
+				scrollbar-width: thin;
+				/* Set the width of the scrollbar */
+				scrollbar-color: #050A78 #f1f1f1;
+				/* Set the color of the scrollbar track and thumb */
+
+			}
+
+
+			.sidebar.active {
+				left: 0;
+				color: #050A78;
+			}
+
+			.sidebar-header .btn-close {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				font-size: 0.8rem;
+				/* Adjust the font size of the close button */
+				padding: 0.15rem 0.25rem;
+				/* Adjust the padding of the close button */
+			}
+
+
+			.square {
+				background-color: #ffffff;
+				color: #050A78;
+				text-align: center;
+				line-height: 30px;
+				cursor: move;
+
+			}
+
+
+			.drop-zone {
+				width: 400px;
+				height: 120px;
+				border: 1px dashed #050A78;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+				overflow-y: scroll;
+				background-color: "green";
+			}
+
+
+			.drop-zone2 {
+				width: 170px;
+				height: 70px;
+				border: 1px dashed #050A78;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+			}
+
+
+			#sidebar-right {
+				display: flex;
+				height: 80%;
+				width: 370px;
+				position: fixed;
+				top: 50%;
+				/* Center the sidebar vertically */
+				right: -370px;
+				/* Adjusted to be aligned to the right */
+				background-color: #F5F5FC;
+				padding-top: 60px;
+				transition: 0.3s;
+				transform: translateY(-45%);
+				/* Adjust for vertical centering */
+				overflow-y: auto;
+				/* Enable vertical scrollbar */
+				scrollbar-width: thin;
+				/* Set the width of the scrollbar */
+				scrollbar-color: #050A78 #f1f1f1;
+				/* Set the color of the scrollbar track and thumb */
+
+			}
+     .copy-button {
+           
+			background-color: rgb(5, 10, 120);
+            
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+			.small-input1 {
+				font-size: 12px;
+				/* Decrease the font size */
+				padding: 4px;
+				/* Adjust the padding */
+				width: 130px;
+
+			}
+
+
+			.button-bar {
+				width: 20px;
+				/* Largeur de la sidebar */
+				height: 100vh;
+				/* Prend toute la hauteur de la vue */
+				background-color: #ffffff;
+				padding: 10px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+				/* Pour espacement égal entre les boutons */
+				margin: 0;
+				top: 0;
+				left: 0;
+				border-radius: 10px;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+
+			#content-placeholder {
+				flex-grow: 1; /* Prend l'espace restant */
+				background-color: #F5F5FC;
+				padding: 20px;
+				text-align: left;
+			}
+
+			.button-bar button {
+				writing-mode: vertical-lr;
+				transform: rotate(180deg);
+				margin: 10px;
+				background: none;
+				border: none;
+				color: #050A78;
+				cursor: pointer;
+				padding: 10px;
+				transition: background-color 0.3s;
+			}
+
+
+			.radius-button {
+				width: 30px;
+				height: 30px;
+				margin: 0 2px;
+				padding: 0;
+				display: inline-block;
+				vertical-align: middle;
+				border: none;
+			}
+
+
+			.color-picker-container {
+				margin-bottom: 15px;
+				width: 70%;
+				/* Réduction de la largeur des barres à 50% du conteneur */
+				margin-left: auto;
+				/* Centrer les barres dans le conteneur */
+				margin-right: auto;
+			}
+
+
+			.color-picker {
+				width: 100%;
+				border: none;
+				padding: 0;
+				height: 38px;
+				/* Hauteur ajustable si nécessaire */
+				cursor: pointer;
+			}
+
+
+			.cardcolor-container {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 10px;
+				width: 300px;
+			}
+
+			.cardcolor {
+				background-color: #f8f9fa;
+				border-radius: 15px;
+				padding: 15px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.cardcolor-header {
+				height: 100px;
+				background-color: #ddd;
+				border-radius: 15px 15px 0 0;
+				margin: -15px -15px 15px;
+			}
+
+			.cardcolor-button {
+				background-color: #333;
+				color: white;
+				border: none;
+				padding: 10px;
+				text-align: center;
+				border-radius: 15px;
+				margin: 15px -15px -15px;
+			}
+
+			/* Add your color styles here */
+			.cardcolor.color1 .cardcolor-header {
+				background-color: #fabebe;
+			}
+
+			.cardcolor.color2 .cardcolor-header {
+				background-color: #90ee90;
+			}
+
+			.cardcolor.color3 .cardcolor-header {
+				background-color: #dda0dd;
+			}
+
+			.cardcolor.color4 .cardcolor-header {
+				background-color: #add8e6;
+			}
+
+			.cardcolor.color1 .cardcolor-button {
+				background-color: #dc3545;
+			}
+
+			.cardcolor.color2 .cardcolor-button {
+				background-color: #28a745;
+			}
+
+			.cardcolor.color3 .cardcolor-button {
+				background-color: #6f42c1;
+			}
+
+			.cardcolor.color4 .cardcolor-button {
+				background-color: #17a2b8;
+			}
+
+			.plus-icon {
+				font-size: 1.5rem;
+				/* Increase font size to make the icon bigger */
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			#dropZone {
+				min-height: 540px;
+				width: 750px;
+				background-color: white;
+				border: 2px dashed #ccc;
+				border-radius: 40px;
+				color: #ccc;
+				left: 10%;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+				padding: 20px;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+
+			.animbutton {
+				transition: background-color 0.3s; /* Smooth transition for background color change */
+				/* Other styles for #emailButton here */
+			}
+			.animbutton:hover {
+				background-color: #050A78; /* Change to the desired background color on hover */
+				color: white;
+				animation: fa-fade;
+
+			}
+			.sideicone {
+				color: #050A78;
+			}
+			.box {
+				display: flex;
+				gap: 20px;
+			}
+			/* style.css */
+			.rating {
+				unicode-bidi: bidi-override;
+				direction: rtl;
+				font-size: 24px;
+			}
+
+			.rating > span {
+				display: inline-block;
+				position: relative;
+				width: 1.1em;
+				cursor: pointer;
+			}
+
+			.rating > span:hover,
+			.rating > span:hover ~ span {
+				color: orange;
+			}
+
+			/* style.css */
+			.card {
+				width: 750px;
+				height: 49px;
+				background-color: #ffffff;
+				border: 2px dashed #ccc;
+				overflow: hidden;
+				transition: height 0.3s ease-in-out;
+				margin: 10px;
+
+			}
+
+			.card-header {
+				cursor: pointer;
+				padding: 10px;
+				font-size: 24px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #FfFfFf;
+
+			}
+			 .copy-button {
+            background-color: rgb(5, 10, 120);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+			.plus-icon {
+				margin-right: 20px;
+
+			}
+
+			.card-content {
+				display: none;
+				/* Fixed height to maintain card size */
+
+
+				flex-direction: column;
+				/* Stack children vertically */
+				align-items: center;
+				/* Align children in the center */
+				overflow-y: auto;
+				/* Enable vertical scrolling */
+				overflow-x: hidden;
+				/* Hide horizontal scrolling */
+
+			}
+
+			.logo-placeholder {
+				height: 100px; /* Placeholder for logo size */
+				background-color: #ddd; /* Placeholder background */
+				margin-bottom: 10px;
+			}
+
+			.title-input,
+			.desc-textarea {
+				display: block;
+				width: 100%;
+				margin-bottom: 10px;
+			}
+
+			.start-button {
+				padding: 10px 20px;
+				margin-right: 50px;
+				display: flex;
+				justify-content: center; // Horizontally center the button
+				align-items: center;
+
+
+			}
+
+			.cardcentre {
+				display: flex;
+				flex-direction: column;
+				justify-content: center; /* Center horizontally */
+				align-items: center; /* Center vertically */
+
+			}
+			.drop-zone2 {
+				width: 100%; /* Adjust according to your design */
+				min-height: 100px; /* Provides a minimum height for the drop zone */
+				border: 2px dashed #ccc; /* Styling for the drop zone */
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+			}
+			#expandableCard2 {
+				margin-bottom: 50px;
+			}
+		</style>
+	</head>
+
+
+	<body class="row justify-content-center mx-auto  my-auto" style="background: #F8FCFF;font-family: 'Comfortaa', sans-serif;">
+
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg shadow mb-1" style="background: #F5F5FC; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+				<div class="container">
+					<a href="#" class="navbar-band"><img src="{{ asset('img/logo.png')}}" style="width: 200px; height: auto;" alt="logo"></a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+						<ul class="navbar-nav  mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link" style="color: #050A78;" href="#">Accueil</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color: #050A78;" href="#">Création</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color: #050A78;" href="#">réponses</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color: #050A78;" href="#">Mes formulaires</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- container -->
+		 <button  class="copy-button" id="redirect-button" data-project-id=61>Generate Lien </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var redirectButton = document.getElementById('redirect-button');
+
+            if (redirectButton) {
+                redirectButton.addEventListener('click', function() {
+                    var projectId = this.getAttribute('data-project-id');
+                    if (projectId) {
+                        window.location.href = '/question/'+'project/' + projectId + '/questionsA';
+                    } else {
+                        console.error('Project ID not found');
+                    }
+                });
+            }
+        });
+    </script>
+				<div>
+
+					<img src="{{ asset('img/imgg.png')}}" href="#" class="img-fluid mx-5" style="height:40px; width: 40px; border-radius: 40px"/>
+				</div>
+
+
+			</nav>
+
+
+		</div>
+		<!-- container -->
+
+
+		<div
+			class="row  justify-content-between mt-5 ">
+			<!-- button Sidebar left -->
+			<div class="col-auto" style="background: #F5F5FC ; border-bottom-right-radius: 20px; border-top-right-radius: 20px;">
+				<button class="btn sideicone" onclick="toggleSidebar()">
+					<i class="fa-solid fa-plus fa-2x  "></i>
+				</button>
+			</div>
+			<!-- button Sidebar left -->
+
+
+			<!-- button Sidebar right -->
+			<div class="col-auto">
+				<div class="col-auto ms-auto " id="sidebar-btn-right" style="background:#F5F5FC;  border-bottom-left-radius: 20px; border-top-left-radius: 20px;">
+					<button class=" btn sideicone" id="toggle-btn-right" onclick="toggleSidebarRight()">
+						<i class="fa-solid fa-pen-to-square fa-2x"></i>
+					</button>
+				</div>
+			</div>
+			<!-- button Sidebar right -->
+
+		</div>
+		<!--les 2 buttons -->
+
+
+		<!-- Sidebar left -->
+		<div class="sidebar shadow rounded-3 " id="sidebar">
+			<h5>Informations de contact</h5>
+			
+		<div class="drag-container p-3" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div class="row">
+        <span id="shortButton" class="animbutton" draggable="true" ondragstart="drag(event,'short')">
+            <i class="fa-solid fa-grip-lines"></i>
+			        <input type="text" name="short" placeholder="Entrer votre texte" style="width: 100%; padding: 10px; font-size: 16px; margin-bottom: 20px; border: none; outline: none; background-color: transparent;">
+
+           Saisir un Texte 
+        </span>
+		
+					
+				</div>
+
+				
+			</div>
+
+			<div class="sidebar-header">
+			
+				<button type="button" class="btn-close" aria-label="Close" onclick="toggleSidebar()"></button>
+			</div>
+			<div class="drag-container p-3 " ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="row">
+					<div id="adresseButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'adresse')">
+						<i class="fa-solid fa-house"></i>
+						Adresse
+					</div>
+					<div id="emailButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'email')">
+						<i class="fa-solid fa-envelope"></i>
+						Email
+					</div>
+				</div>
+				<div class="row">
+					<div id="telButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'tel')">
+						<i class="fa-solid fa-phone"></i>
+						Num tel
+					</div>
+					<div id="dateButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'date')">
+						<i class="fa-regular fa-calendar"></i>
+						Date</div>
+				</div>
+				<div class="row">
+					<div id="websiteButton" class="col shadow px-4 square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'website')">
+						<i class="fa-solid fa-globe"></i>
+						SiteWeb</div>
+				</div>
+			</div>
+			<h5>Réponse</h5>
+<div class="drag-container p-3" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div class="row">
+       
+		
+					<div id="longButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'long')">
+						<i class="fa-solid fa-bars"></i>
+						Réponse 
+					</div>
+				</div>
+			</div>
+
+			<h5>Choix</h5>
+
+			<div class="drag-container p-3" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="row">
+					<div id="derouleButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'deroule')">
+						<i class="fa-solid fa-chevron-down"></i>
+						Dérouler
+					</div>
+					<div id="yesornoButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'yesorno')">
+						<i class="fa-solid fa-circle-half-stroke"></i>
+						Oui/non
+					</div>
+				</div>
+				<div class="row">
+					<div id="multipleButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'multiple')">
+						<i class="fa-solid fa-circle-check"></i>
+						Choix multiple
+					</div>
+				</div>
+
+				<div class="row ">
+					<div id="imageButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'image')">
+						<i class="fa-solid fa-images"></i>
+						Choix d’image
+					</div>
+				</div>
+
+			</div>
+
+			<h5>Date et planning</h5>
+
+			<div class="drag-container p-3" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="row">
+					<div id="dateButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'date')">
+						<i class="fa-regular fa-calendar-days"></i>
+						Date
+					</div>
+					<div id="calenderButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'calender')">
+						<i class="fa-solid fa-calendar"></i>
+						Calendrier
+					</div>
+				</div>
+
+			</div>
+			<!-- Note et classement -->
+
+
+			<h5>Note et classement</h5>
+
+			<div class="drag-container p-3" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="row">
+					<div id="matriceButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'matrice')">
+						<i class="fa-solid fa-grip"></i>
+						Matrice
+					</div>
+				</div>
+				<div class="row">
+					<div id="netButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'net')">
+						<i class="fa-solid fa-gauge-simple-high"></i>
+						Net promoter score
+					</div>
+				</div>
+				<div class="row">
+					<div id="opinionButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'opinion')">
+						<i class="fa-solid fa-square-poll-vertical"></i>
+						Echelle d’opinion
+					</div>
+				</div>
+				<div class="row">
+					<div id="classButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'classe')">
+						<i class="fa-solid fa-square-poll-horizontal"></i>
+						Classement
+					</div>
+					<div id="notationButton" class="col shadow square rounded-3 m-1 animbutton" draggable="true" ondragstart="drag(event,'nota')">
+						<i class="fa-solid fa-star"></i>
+						Notation
+					</div>
+				</div>
+			</div>
+			<!-- Note et classement -->
+
+
+		</div>
+		<!-- Sidebar left -->
+
+
+		<!-- Sidebar right -->
+		<div id="sidebar-right">
+			<div class="col-auto  button-bar">
+				<button onclick="changeContent('intro')">Intro</button>
+				<button onclick="changeContent('couleur')">Couleur</button>
+				<button onclick="changeContent('style')">Style</button>
+				<button onclick="changeContent('fin')">Fin</button>
+				<button onclick="changeContent('historique')">Historique</button>
+			</div>
+			<div id="content-placeholder">
+
+				<div class="row">
+
+
+					<div class="col-auto">
+						<div class="sidebar-header">
+							<div class="row mx-2">
+								<h4 class="fw-bold" style="color: #050A78;">Logo</h4>
+								<button type="button" class="btn-close" aria-label="Close" onclick="toggleSidebarRight()"></button>
+							</div>
+						</div>
+						<!--sidebar-header -->
+
+						<div
+							class="row justify-content-center">
+							<!-- Center the drop zone horizontally -->
+							<div class="bg-white col-auto m-2" style="border-radius: 20px; height: 100px; width:250px;">
+								<div class="d-flex justify-content-center align-items-center h-100">
+									<!-- Center content vertically and horizontally -->
+									<!-- Drop zone for photos -->
+										<div class="row drop-zone2" id="photo-drop-zone2" ondrop="dropPhoto(event)" ondragover="allowDrop(event)"> <div style="font-size: 15px;">Glisser votre logo</div>
+										<form>
+											<div class="form-group">
+												<input type="file" class="form-control-file small-input1" id="exampleFormControlFile1" onchange="uploadFile(this.files)">
+											</div>
+										</form>
+
+									</div>
+								</div>
+
+							</div>
+							<!-- Your sidebar content here -->
+						</div>
+					</div>
+					<!-- dropphoto -->
+
+
+					<!-- Taille 1-->
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Taille</div>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="taille-buttons">
+							<button class="btn taille-btn" onclick="changeImageSize('small')" style="background: #C2C2E7;">
+
+								Petit
+
+							</button>
+							<button class="btn taille-btn " onclick="changeImageSize('medium')" style="background: #C2C2E7;">
+
+								Moy
+
+							</button>
+							<button class="btn taille-btn" onclick="changeImageSize('large')" style="background: #C2C2E7;">
+
+								Grand
+
+							</button>
+						</div>
+					</div>
+					<!-- taille -->
+
+
+					<!-- Positionnement -->
+					<div class="row mt-3 m-2">
+						<h5 class="fw-bold" style="color: #050A78;">Positionnement</h5>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="positionnement-buttons">
+							<button class="btn position-btn" style="background: #C2C2E7;" onclick="alignImage('right')">
+
+								Droite
+
+							</button>
+							<button class="btn position-btn " style="background: #C2C2E7;" onclick="alignImage('center')">
+
+								Centre
+
+							</button>
+							<button class="btn position-btn" style="background: #C2C2E7;" onclick="alignImage('left')">
+								Gauche
+							</button>
+						</div>
+
+					</div>
+					<!-- Positionnement -->
+
+
+					<!-- titre -->
+					<div class="row m-2 mt-3">
+						<h5 class="fw-bold" style="color: #050A78;">Titre</h5>
+					</div>
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Texte
+						</div>
+					</div>
+					<div class="row form-group m-2 mt-3 ">
+						<select id="fontPicker" onchange="applyStyle('fontFamily', this.value)">
+							<option value="Arial">Arial</option>
+							<option value="Verdana">Verdana</option>
+							<option value="Times New Roman">Times</option>
+						</select>
+					</div>
+
+
+					<!-- taille 2-->
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Taille</div>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="size-buttons">
+							<button class="btn size-btn" style="background: #C2C2E7;" id="small">
+								Petit
+							</button>
+							<button class="btn size-btn" style="background: #C2C2E7;" id="medium">
+								Moy
+							</button>
+							<button class="btn size-btn" style="background: #C2C2E7;" id="large">
+								Grand
+							</button>
+						</div>
+					</div>
+					<!-- taille -->
+
+
+					<!-- parametre de texte -->
+					<div
+						class="text-formatting-bar mt-3 d-flex align-items-center">
+
+						<!-- Bold Button -->
+						<button class="btn" id="bold-btn" onclick="toggleBold()">
+							<i class="bi bi-type-bold">B</i>
+						</button>
+
+						<!-- Italic Button -->
+						<button class="btn" id="italic-btn" onclick="toggleItalic()">
+							<i class="bi bi-type-italic">I</i>
+						</button>
+
+						<!-- Underline Button -->
+						<button class="btn" id="underline-btn" onclick="toggleUnderline()">
+							<i class="bi bi-type-underline">U</i>
+						</button>
+
+						<!-- Align Left Button -->
+						<button class="btn ms-auto" id="align-left-btn" onclick="alignText('left')">
+							<i class="fas fa-align-left"></i>
+						</button>
+
+						<!-- Align Center Button -->
+						<button class="btn" id="align-center-btn" onclick="alignText('center')">
+							<i class="fas fa-align-center"></i>
+						</button>
+
+						<!-- Align Right Button -->
+						<button class="btn" id="align-right-btn" onclick="alignText('right')">
+							<i class="fas fa-align-right"></i>
+						</button>
+
+						<!-- Justify Button -->
+						<button class="btn" id="align-justify-btn" onclick="alignText('justify')">
+							<i class="fas fa-align-justify"></i>
+						</button>
+					</div>
+
+
+					<div class="row mt-3 m-2 fw-bold" style="color: #050A78;">
+						<div class="col-auto">Radius</div>
+						<div class="col-auto btn-group">
+							<button class="btn btn-outline-secondary radius-button" onclick="changeBorderRadius(0)">
+								<i class="fas fa-square"></i>
+								<!-- Square icon -->
+							</button>
+							<button class="btn btn-outline-secondary radius-button" onclick="changeBorderRadius(10)">
+								<i class="fas fa-circle"></i>
+								<!-- Circle icon -->
+							</button>
+							<button class="btn btn-outline-secondary radius-button" onclick="changeBorderRadius(50)">
+								<i class="fas fa-adjust"></i>
+								<!-- Adjust icon -->
+							</button>
+						</div>
+					</div>
+
+
+					<!-- Description  -->
+
+
+				</div>
+				<!-- col -->
+
+
+			</div>
+			<!--row -->
+		</div>
+		<!-- contenu Sidebar right -->
+		<div class="cardcentre">
+			<div class="card" id="expandableCard" style="display: flex; justify-content: center;">
+				<div class="card-header" onclick="toggleCard()">
+					<span class="plus-icon">+</span>
+				</div>
+				<div class="card-content" id="taille" style="margin:50px;">
+
+					<div id="imageContainer" style="display: flex;">
+						<img id="displayedImage" src="#" alt="Uploaded Image" style="display:none; max-width: 50%; height: 50%;">
+					</div>
+					<input type="text" placeholder="Title" class="title-input editable" id="questionInput" style=" border-top: none;border-left: none;border-right: none;border-radius: 0;border-bottom: 1px solid #ced4da;">
+					<textarea placeholder="Description" class="desc-textarea editable" id="questionInput" style=" border-top: none;border-left: none;border-right: none;border-radius: 0;border-bottom: 1px solid #ced4da;"></textarea>
+					<button class="start-button editable" id="targetElement" style="background: #050A78; color: white;  border: 2px solid transparent;  display: flex; justify-content: center;">
+						Start
+					</button>
+
+				</div>
+			</div>
+			<div class="drop-zone" id="dropZone" ondragover="allowDrop(event)" ondrop="drop(event)" ondragleave="resetDropZone()">
+				Faites glisser votre question ici
+			</div>
+
+			<div class="card" id="expandableCard2">
+				<div class="card-header" onclick="toggleCard2()">
+					<span class="plus-icon">+</span>
+				</div>
+				<div class="card-content">
+
+					<div id="imageContainer3" style="display: flex;">
+						<img id="displayedImage3" src="#" alt="Uploaded Image" style="display:none; max-width: 50%; height: 50%;">
+					</div>
+					<textarea placeholder="Description" class="desc-textarea editable" id="descriptionInput" style=" border-top: none;border-left: none;border-right: none;border-radius: 0;border-bottom: 1px solid #ced4da;"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// left sidebaaar
+
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('active');
+
+}
+
+
+// draganddrop
+function allowDrop(event) {
+event.preventDefault();
+var dropZone = document.getElementById('dropZone');
+dropZone.style.backgroundColor = '#050A78'; // Change la couleur en bleu lors du survol
+}
+function drag(event, type) {
+event.dataTransfer.setData("text/plain", type);
+}
+function resetDropZone() {
+var dropZone = document.getElementById('dropZone');
+dropZone.style.backgroundColor = '#FFFFFF'; // Réinitialise la couleur de fond
+}
+function drop(ev) {
+ev.preventDefault();
+let type = ev.dataTransfer.getData("text");
+let element; // Declare the variable that will hold either an input or a select element
+let dropZone = ev.target;
+if (dropZone.id === "dropZone") { // Append the dragged element to the drop zone.
+
+switch (type) {
+case 'email': element = document.createElement("input");
+element.type = "email";
+element.placeholder = "Enter your email";
+element.name = "email";
+element.style.width = "100%"; // Width relative to main container
+element.style.padding = "10px";
+// element.style.marginRight = "300px";
+element.style.fontSize = "16px";
+element.style.marginBottom = "20px"; // Space between question and image box
+element.style.borderTop = "none";
+element.style.borderLeft = "none";
+element.style.borderRight = "none";
+element.style.borderRadius = "0";
+element.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+element.style.backgroundColor = "transparent"; // Set background to transparent
+break;
+case 'tel': element = document.createElement("input");
+element.type = "tel";
+element.placeholder = "Enter your phone number";
+element.name = "tel";
+element.style.width = "100%"; // Width relative to main container
+element.style.padding = "10px";
+// element.style.marginRight = "300px";
+element.style.fontSize = "16px";
+element.style.marginBottom = "20px"; // Space between question and image box
+element.style.borderTop = "none";
+element.style.borderLeft = "none";
+element.style.borderRight = "none";
+element.style.borderRadius = "0";
+element.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+element.style.backgroundColor = "transparent"; // Set background to transparent
+break;
+case 'adresse': element = document.createElement("input");
+element.type = "text";
+element.placeholder = "adresse";
+element.name = "address";
+element.style.width = "100%"; // Width relative to main container
+element.style.padding = "10px";
+// element.style.marginRight = "300px";
+element.style.fontSize = "16px";
+element.style.marginBottom = "20px"; // Space between question and image box
+element.style.borderTop = "none";
+element.style.borderLeft = "none";
+element.style.borderRight = "none";
+element.style.borderRadius = "0";
+element.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+element.style.backgroundColor = "transparent"; // Set background to transparent
+
+break;
+case 'date': element = document.createElement("input");
+element.type = "date";
+element.name = "date";
+element.style.width = "100%"; // Width relative to main container
+element.style.padding = "10px";
+// element.style.marginRight = "300px";
+element.style.fontSize = "16px";
+element.style.marginBottom = "20px"; // Space between question and image box
+element.style.borderTop = "none";
+element.style.borderLeft = "none";
+element.style.borderRight = "none";
+element.style.borderRadius = "0";
+element.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+element.style.backgroundColor = "transparent"; // Set background to transparent
+break;
+case 'website': element = document.createElement("input");
+element.type = "url";
+element.placeholder = "Enter your website link";
+element.name = "website";
+element.style.width = "100%"; // Width relative to main container
+element.style.padding = "10px";
+// element.style.marginRight = "300px";
+element.style.fontSize = "16px";
+element.style.marginBottom = "20px"; // Space between question and image box
+element.style.borderTop = "none";
+element.style.borderLeft = "none";
+element.style.borderRight = "none";
+element.style.borderRadius = "0";
+element.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+element.style.backgroundColor = "transparent"; // Set background to transparent
+break;
+case 'short': 
+    element = document.createElement("input");
+    element.type = "text";
+    element.placeholder = "TEXT";
+    element.name = "short";
+    element.style.width = "100%"; // Width relative to main container
+    element.style.padding = "10px";
+    element.style.fontSize = "16px";
+    element.style.marginBottom = "20px"; // Space between question and image box
+    element.style.border = "none"; // Remove all borders
+    element.style.outline = "none"; // Remove outline on focus
+    element.style.backgroundColor = "transparent"; // Set background to transparent
+    break;
+
+case 'long': element = document.createElement("textarea");
+element.type = "textarea";
+element.placeholder = "Votre Réponse";
+element.name = "short";
+element.style.width = "100%"; // Width relative to main container
+element.style.padding = "10px";
+// element.style.marginRight = "300px";
+element.style.fontSize = "16px";
+element.style.marginBottom = "20px"; // Space between question and image box
+element.style.borderTop = "none";
+element.style.borderLeft = "none";
+element.style.borderRight = "none";
+element.style.borderRadius = "0";
+element.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+element.style.backgroundColor = "transparent"; // Set background to transparent
+break;
+case 'yesorno': element = createYesNoSection();
+break;
+case 'deroule': element = createDropdown();
+addOptions(element); // Ensure this is defined correctly
+break;
+case 'multiple': element = createMultipleChoiceSection(); // Ensure this function is defined
+
+break;
+case 'calender': element = createDateTimePickerSection();
+break;
+case 'matrice': element = createMatrixSection();
+break;
+case 'net': element = createNetPromoterSection();
+break;
+case 'opinion': element = createOpinionSection();
+break;
+case 'classe': element = createRankingSection();
+break;
+case 'nota': element = createRatingSystem();
+break;
+case 'image': element = createUploaderWithQuestion(); // Ensure this function is defined
+break;
+default:
+console.warn("Unhandled type: " + type);
+return; // Only skip to next iteration if type is unhandled
+}
+if (element) {
+styleAndAppendElement(ev.target, element);
+}
+
+createQuestion(type)
+}
+
+}
+
+// email//
+
+// notation//
+function createRatingSystem() { // Create a container for the entire rating system, including the question
+let container = document.createElement("div");
+container.className = "rating-container";
+
+// Create and style the input for entering the ranking question
+let questionInput = document.createElement("input");
+questionInput.type = "text";
+questionInput.className = "question";
+questionInput.placeholder = "Enter your ranking question";
+questionInput.name = "rankingQuestion";
+questionInput.style.width = "100%"; // Width relative to main container
+questionInput.style.padding = "10px";
+questionInput.style.fontSize = "16px";
+questionInput.style.marginBottom = "20px"; // Space between question and image box
+questionInput.style.borderTop = "none";
+questionInput.style.borderLeft = "none";
+questionInput.style.borderRight = "none";
+questionInput.style.borderRadius = "0";
+questionInput.style.marginRight = "400px"; // This might be unnecessary if you want 100% width
+questionInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+questionInput.style.backgroundColor = "transparent";
+questionInput.style.marginRight = "300px";
+
+// Append the question input to the container
+container.appendChild(questionInput);
+
+// Create a div to hold the stars
+let rating = document.createElement("div");
+rating.className = "rating";
+
+// Create stars and append them to the rating div
+for (let i = 5; i > 0; i--) {
+let star = document.createElement("span");
+star.textContent = '★';
+star.setAttribute('data-value', i);
+star.style.cursor = 'pointer';
+star.style.fontSize = '24px'; // Set font size for stars
+star.onclick = function () {
+setRating(rating, i);
+};
+rating.appendChild(star);
+}
+
+// Append the rating div to the container
+container.appendChild(rating);
+
+return container;
+}
+
+function setRating(rating, value) {
+const stars = rating.querySelectorAll('span');
+stars.forEach(star => {
+star.style.color = star.getAttribute('data-value') <= value ? 'orange' : 'gray';
+});
+}
+
+
+function setRating(rating, value) {
+const stars = rating.querySelectorAll('span');
+stars.forEach(star => {
+star.style.color = star.getAttribute('data-value') <= value ? 'orange' : 'gray';
+});
+}
+
+// classement//
+function createRankingSection() {
+let container = document.createElement("div");
+container.className = "ranking-container";
+
+let questionInput = document.createElement("input");
+questionInput.type = "text";
+questionInput.className = "question";
+questionInput.placeholder = "Enter your ranking question";
+questionInput.name = "rankingQuestion";
+questionInput.style.width = "100%"; // Width relative to main container
+questionInput.style.padding = "10px";
+questionInput.style.fontSize = "16px";
+questionInput.style.marginBottom = "20px"; // Space between question and image box
+questionInput.style.borderTop = "none";
+questionInput.style.borderLeft = "none";
+questionInput.style.borderRight = "none";
+questionInput.style.borderRadius = "0";
+questionInput.style.marginRight = "400px";
+questionInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+questionInput.style.backgroundColor = "transparent";
+container.appendChild(questionInput);
+
+
+let listContainer = document.createElement("ul");
+listContainer.className = "sortable-list";
+container.appendChild(listContainer);
+
+let addButton = document.createElement("button");
+addButton.textContent = "Add Choice";
+addButton.type = "button";
+addButton.style = " background-color: #050A78; color: white; border: none; cursor: pointer ";
+addButton.onclick = () => addChoice(listContainer);
+container.appendChild(addButton);
+
+return container;
+new Sortable(listContainer, {
+animation: 150,
+ghostClass: 'sortable-ghost'
+});
+}
+/*if (target) {target.appendChild(element);} 
+      else {console.error("Attempted to append to a non-existent element");}*/
+
+function addChoice(list) {
+let listItem = document.createElement("li");
+let choiceInput = document.createElement("input");
+choiceInput.type = "text";
+choiceInput.placeholder = "Enter a choice";
+choiceInput.style.width = "100%"; // Width relative to main container
+choiceInput.style.padding = "10px";
+choiceInput.style.fontSize = "16px";
+choiceInput.style.marginBottom = "20px"; // Space between question and image box
+choiceInput.style.borderTop = "none";
+choiceInput.style.borderLeft = "none";
+choiceInput.style.borderRight = "none";
+choiceInput.style.borderRadius = "0";
+choiceInput.style.marginRight = "400px";
+choiceInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+choiceInput.style.backgroundColor = "transparent";
+choiceInput.style.marginRight = "300px";
+listItem.appendChild(choiceInput);
+list.appendChild(listItem);
+}
+// net score//
+function createNetPromoterSection() {
+let element = document.createElement("div"); // Conteneur principal pour la section NPS
+element.style.padding = "10px";
+element.style.marginTop = "5px";
+
+
+// Création d'un label pour la question NPS
+let questionInput = document.createElement("input");
+questionInput.type = "text";
+questionInput.className = "question";
+questionInput.placeholder = "How likely are you to recommend us to a friend or colleague?";
+questionInput.style.display = "block";
+questionInput.style.marginBottom = "10px";
+questionInput.style.width = "100%"; // Width relative to main container
+questionInput.style.padding = "10px";
+questionInput.style.marginRight = "400px";
+questionInput.style.fontSize = "16px";
+questionInput.style.marginBottom = "20px"; // Space between question and image box
+questionInput.style.borderTop = "none";
+questionInput.style.borderLeft = "none";
+questionInput.style.borderRight = "none";
+questionInput.style.borderRadius = "0";
+questionInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+questionInput.style.backgroundColor = "transparent";
+// Set background to transparent
+
+
+// Création des boutons pour les scores de 0 à 10
+let scoreContainer = document.createElement("div");
+scoreContainer.style.display = "flex";
+scoreContainer.style.justifyContent = "space-between";
+scoreContainer.style.marginTop = "10px";
+
+// Ajout de l'état sélectionné
+let selectedButton = null; // Garde trace du bouton sélectionné
+
+for (let i = 0; i <= 10; i++) {
+let button = document.createElement("button");
+button.textContent = i;
+button.style.padding = "8px 16px";
+button.style.border = "1px solid #050A78";
+button.style.backgroundColor = "#F5F5FC";
+button.style.cursor = "pointer";
+button.style.margin = "2px";
+button.style.borderRadius = "5px";
+button.style.fontSize = "16px";
+
+button.onclick = function () {
+if (selectedButton) {
+selectedButton.style.backgroundColor = "#f8f9fa"; // Désélectionne le précédent
+selectedButton.style.color = "black";
+}
+button.style.backgroundColor = "#050A78"; // Sélectionne le nouveau
+button.style.color = "white";
+selectedButton = button; // Mise à jour du bouton sélectionné
+};
+
+// Ajouter un effet de survol
+button.onmouseover = function () {
+if (selectedButton !== button) { // Uniquement si le bouton n'est pas déjà sélectionné
+button.style.backgroundColor = "#cce4ff"; // Couleur de survol
+}
+};
+button.onmouseout = function () {
+if (selectedButton !== button) { // Uniquement si le bouton n'est pas déjà sélectionné
+button.style.backgroundColor = "#f8f9fa"; // Retour à la couleur initiale
+}
+};
+
+scoreContainer.appendChild(button);
+}
+
+let labelContainer = document.createElement("div");
+labelContainer.style.display = "flex";
+labelContainer.style.justifyContent = "space-between";
+labelContainer.style.marginTop = "5px";
+
+let lowLabel = document.createElement("span");
+lowLabel.textContent = "Not likely at all";
+lowLabel.style.fontSize = "14px";
+
+let highLabel = document.createElement("span");
+highLabel.textContent = "Extremely likely";
+highLabel.style.fontSize = "14px";
+
+labelContainer.appendChild(lowLabel);
+labelContainer.appendChild(highLabel);
+element.appendChild(questionInput);
+element.appendChild(scoreContainer);
+element.appendChild(labelContainer);
+
+return element;
+}
+// opinion//
+function createOpinionSection() {
+let element = document.createElement("div"); // Conteneur principal pour la section NPS
+element.style.padding = "10px";
+element.style.marginTop = "5px";
+
+
+// Création d'un label pour la question NPS
+let questionInput = document.createElement("input");
+questionInput.type = "text";
+questionInput.className = "question";
+questionInput.placeholder = "Ecrivez votre question";
+questionInput.style.display = "block";
+questionInput.style.marginBottom = "10px";
+questionInput.style.width = "100%"; // Width relative to main container
+questionInput.style.padding = "10px";
+questionInput.style.marginRight = "400px";
+questionInput.style.fontSize = "16px";
+questionInput.style.marginBottom = "20px"; // Space between question and image box
+questionInput.style.borderTop = "none";
+questionInput.style.borderLeft = "none";
+questionInput.style.borderRight = "none";
+questionInput.style.borderRadius = "0";
+questionInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+questionInput.style.backgroundColor = "transparent";
+// Set background to transparent
+
+// Création des boutons pour les scores de 0 à 10
+let opinionContainer = document.createElement("div");
+opinionContainer.style.display = "flex";
+opinionContainer.style.justifyContent = "space-between";
+opinionContainer.style.marginTop = "10px";
+
+// Ajout de l'état sélectionné
+let selectedButton = null; // Garde trace du bouton sélectionné
+
+for (let i = 0; i <= 10; i++) {
+let button = document.createElement("button");
+button.textContent = i;
+button.style.padding = "8px 16px";
+button.style.border = "1px solid #050A78";
+button.style.backgroundColor = "#F5F5FC";
+button.style.cursor = "pointer";
+button.style.margin = "2px";
+button.style.borderRadius = "5px";
+button.style.fontSize = "16px";
+
+button.onclick = function () {
+if (selectedButton) {
+selectedButton.style.backgroundColor = "#f8f9fa"; // Désélectionne le précédent
+selectedButton.style.color = "black";
+}
+button.style.backgroundColor = "#050A78"; // Sélectionne le nouveau
+button.style.color = "white";
+selectedButton = button; // Mise à jour du bouton sélectionné
+};
+
+// Ajouter un effet de survol
+button.onmouseover = function () {
+if (selectedButton !== button) { // Uniquement si le bouton n'est pas déjà sélectionné
+button.style.backgroundColor = "#cce4ff"; // Couleur de survol
+}
+};
+button.onmouseout = function () {
+if (selectedButton !== button) { // Uniquement si le bouton n'est pas déjà sélectionné
+button.style.backgroundColor = "#f8f9fa"; // Retour à la couleur initiale
+}
+};
+
+opinionContainer.appendChild(button);
+}
+
+let labelContainer = document.createElement("div");
+labelContainer.style.display = "flex";
+labelContainer.style.justifyContent = "space-between";
+labelContainer.style.marginTop = "5px";
+
+element.appendChild(questionInput);
+element.appendChild(opinionContainer);
+element.appendChild(labelContainer);
+
+return element;
+}
+
+// matrice///
+function createMatrixSection() {
+let element = document.createElement("div"); // Conteneur principal pour la section de la matrice
+element.style.padding = "10px";
+
+// Création d'entrées pour spécifier les dimensions de la matrice
+let rowInput = document.createElement("input");
+rowInput.type = "number";
+rowInput.placeholder = "Number of rows";
+rowInput.style.margin = "5px";
+rowInput.min = "1"; // Minimum 1 ligne
+rowInput.style.borderTop = "none";
+rowInput.style.borderLeft = "none";
+rowInput.style.borderRight = "none";
+rowInput.style.borderRadius = "0";
+rowInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+rowInput.style.backgroundColor = "transparent"; // Set background to transparent
+rowInput.style.marginRight = "300px";
+
+let colInput = document.createElement("input");
+colInput.type = "number";
+colInput.placeholder = "Number of columns";
+colInput.style.margin = "5px";
+colInput.min = "1"; // Minimum 1 colonne
+colInput.style.borderLeft = "none";
+colInput.style.borderRight = "none";
+colInput.style.borderTop = "none";
+colInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+colInput.style.backgroundColor = "transparent"; // Set background to transparent
+
+let generateButton = document.createElement("button");
+generateButton.textContent = "Generate Matrix";
+generateButton.style.margin = "5px";
+generateButton.style = " background-color: #050A78; color: white; border: none; cursor: pointer ";
+generateButton.onclick = () => generateMatrix(element, parseInt(rowInput.value), parseInt(colInput.value));
+
+// Ajouter les éléments au conteneur
+element.appendChild(rowInput);
+element.appendChild(colInput);
+element.appendChild(generateButton);
+
+return element;
+}
+function generateMatrix(container, rows, cols) { // Nettoyage de la matrice précédente si elle existe
+let existingMatrix = container.querySelector(".matrix-container");
+if (existingMatrix) {
+existingMatrix.remove();
+}
+
+let matrixContainer = document.createElement("div");
+matrixContainer.className = "matrix-container";
+matrixContainer.style.marginTop = "10px";
+matrixContainer.style.backgroundColor = "transparent";
+
+for (let i = 0; i < rows; i++) {
+let row = document.createElement("div");
+for (let j = 0; j < cols; j++) {
+let cellInput = document.createElement("input");
+cellInput.type = "text";
+cellInput.style.width = "50px"; // Assurez-vous que la taille est adéquate
+cellInput.style.margin = "2px";
+cellInput.style.backgroundColor = "transparent";
+cellInput.style.borderLeft = "none";
+cellInput.style.borderRight = "none";
+cellInput.style.borderTop = "none";
+cellInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+row.appendChild(cellInput);
+}
+matrixContainer.appendChild(row);
+}
+
+container.appendChild(matrixContainer);
+}
+
+// //calendrier////
+function createDateTimePickerSection() {
+let element = document.createElement("div"); // Crée un div pour contenir le calendrier
+element.style.padding = "10px"; // Style optionnel pour le padding
+
+let pickerInput = document.createElement("input");
+pickerInput.placeholder = "Select date and time"; // Aj
+pickerInput.style.width = "100%";
+pickerInput.style.padding = "10px";
+pickerInput.style.marginTop = "5px";
+pickerInput.style.width = "100%"; // Width relative to main container
+pickerInput.style.padding = "10px";
+pickerInput.style.marginRight = "600px";
+pickerInput.style.fontSize = "16px";
+pickerInput.style.marginBottom = "20px"; // Space between question and image box
+pickerInput.style.borderTop = "none";
+pickerInput.style.borderLeft = "none";
+pickerInput.style.borderRight = "none";
+pickerInput.style.borderRadius = "0";
+pickerInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+pickerInput.style.backgroundColor = "transparent"; // Set background to transparent
+element.appendChild(pickerInput);
+// Ajoute l'input au div
+
+// Initialisation de Flatpickr
+flatpickr(pickerInput, {
+enableTime: true,
+dateFormat: "Y-m-d H:i",
+time_24hr: true
+});
+
+return element;
+}
+
+function createMultipleChoiceSection() {
+    let container = document.createElement("div");
+    container.id = "multipleChoiceContainer"; // Add an id for reference
+    container.style.margin = "10px 0";
+    container.style.padding = "10px";
+
+    // Create a text input for entering the question
+    let questionInput = document.createElement("input");
+    questionInput.type = "text";
+    questionInput.className = "question";
+    questionInput.placeholder = "Enter your multiple-choice question";
+    questionInput.name = "multipleChoiceQuestion";
+    questionInput.style.width = "100%";
+    questionInput.style.marginBottom = "20px";
+    questionInput.style.padding = "10px";
+    questionInput.style.fontSize = "16px";
+    questionInput.style.borderTop = "none";
+    questionInput.style.borderLeft = "none";
+    questionInput.style.borderRight = "none";
+    questionInput.style.borderRadius = "0";
+    questionInput.style.borderBottom = "1px solid #ced4da";
+    questionInput.style.backgroundColor = "transparent";
+    container.appendChild(questionInput);
+
+    // Add a button that will allow users to add options
+    let addButton = document.createElement("button");
+    addButton.textContent = "Add Option";
+    addButton.type = "button";
+    addButton.onclick = function () {
+        addOptionToMultipleChoice(container);
+    };
+    addButton.style.marginTop = "10px";
+    addButton.style.padding = "10px 20px";
+    addButton.style.backgroundColor = "#050A78";
+    addButton.style.color = "white";
+    addButton.style.border = "none";
+    addButton.style.cursor = "pointer";
+    addButton.style.fontSize = "16px";
+    container.appendChild(addButton);
+
+    // Container to hold options
+    let optionsContainer = document.createElement("div");
+    optionsContainer.className = "options-container";
+    container.appendChild(optionsContainer);
+
+    return container;
+}
+
+function addOptionToMultipleChoice(container) {
+    let optionInput = document.createElement("input");
+    optionInput.type = "text";
+    optionInput.placeholder = "Enter an option";
+    optionInput.name = "option";
+    optionInput.style.width = "90%";
+    optionInput.style.margin = "5px 0";
+
+    let optionsContainer = container.querySelector('.options-container');
+    optionsContainer.appendChild(optionInput);
+}
+// yes or no champ
+function createYesNoSection() {
+let element = document.createElement("div");
+element.style.textAlign = "left";
+
+// Create and style the question input
+let questionInput = document.createElement("input");
+questionInput.type = "text";
+questionInput.className = "question";
+questionInput.contentEditable = "true";
+questionInput.placeholder = "Enter your question here";
+questionInput.name = "yesNoQuestion";
+questionInput.style.width = "100%"; // Width relative to main container
+questionInput.style.padding = "10px";
+questionInput.style.marginRight = "400px";
+questionInput.style.fontSize = "16px";
+questionInput.style.marginBottom = "20px"; // Space between question and image box
+questionInput.style.borderTop = "none";
+questionInput.style.borderLeft = "none";
+questionInput.style.borderRight = "none";
+questionInput.style.borderRadius = "0";
+questionInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+questionInput.style.backgroundColor = "transparent"; // Set background to transparent
+element.appendChild(questionInput);
+
+// Create and style the 'Yes' radio button
+let yesLabel = document.createElement("label");
+yesLabel.style.display = "block"; // Make label a block element to stack vertically
+yesLabel.style.cursor = "pointer";
+yesLabel.style.margin = "10px 0";
+let yesInput = document.createElement("input");
+yesInput.type = "radio";
+yesInput.name = "yesNoAnswer";
+yesInput.value = "yes";
+yesInput.style.display = "none"; // Hide the default radio button
+let customYes = document.createElement("span");
+customYes.classList.add("custom-radio");
+customYes.style.height = "20px";
+customYes.style.width = "20px";
+customYes.style.backgroundColor = "#f1f1f1";
+customYes.style.borderRadius = "50%";
+customYes.style.display = "inline-block";
+customYes.style.position = "relative";
+customYes.style.marginRight = "10px";
+customYes.style.verticalAlign = "middle";
+yesLabel.appendChild(yesInput);
+yesLabel.appendChild(customYes);
+yesLabel.appendChild(document.createTextNode("Yes"));
+element.appendChild(yesLabel);
+
+// Create and style the 'No' radio button
+let noLabel = document.createElement("label");
+noLabel.style.display = "block"; // Make label a block element to stack vertically
+noLabel.style.cursor = "pointer";
+noLabel.style.margin = "10px 0";
+let noInput = document.createElement("input");
+noInput.type = "radio";
+noInput.name = "yesNoAnswer";
+noInput.value = "no";
+noInput.style.display = "none"; // Hide the default radio button
+let customNo = document.createElement("span");
+customNo.classList.add("custom-radio");
+customNo.style.height = "20px";
+customNo.style.width = "20px";
+customNo.style.backgroundColor = "#f1f1f1";
+customNo.style.borderRadius = "50%";
+customNo.style.display = "inline-block";
+customNo.style.position = "relative";
+customNo.style.marginRight = "10px";
+customNo.style.verticalAlign = "middle";
+noLabel.appendChild(noInput);
+noLabel.appendChild(customNo);
+noLabel.appendChild(document.createTextNode("No"));
+element.appendChild(noLabel);
+
+// Add functionality to update custom radio on change
+[yesInput, noInput].forEach(input => {
+input.addEventListener('change', function () {
+if (input.checked) {
+input.nextSibling.style.backgroundColor = "#007BFF"; // Change to a custom color when checked
+input.nextSibling.style.boxShadow = "0 0 0 4px rgba(0,123,255,.25)"; // Adding an outer glow
+}
+// Reset the other radio
+let otherInput = (input === yesInput ? noInput : yesInput);
+otherInput.nextSibling.style.backgroundColor = "#f1f1f1";
+otherInput.nextSibling.style.boxShadow = "none";
+});
+});
+
+return element;
+}
+
+
+function createDropdown() {
+let element = document.createElement("select");
+element.name = "optionsDropdown";
+const defaultOption = document.createElement("option");
+defaultOption.textContent = "Select an option";
+defaultOption.disabled = true;
+defaultOption.selected = true;
+element.appendChild(defaultOption);
+return element;
+}
+
+function addOptions(selectElement) {
+    let options = prompt("Enter options separated by commas:", "");
+    if (options) {
+        let optionArray = options.split(",").map(text => text.trim());
+        optionArray.forEach(function (text) {
+            let option = document.createElement("option");
+            option.textContent = text;
+            selectElement.appendChild(option);
+        });
+        
+        // Envoyer les nouvelles options au serveur
+        let data = {
+            questionId: selectElement.id.split('_')[1],
+            options: optionArray
+        };
+
+        fetch('/save-options', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken // Assurez-vous de gérer CSRF token si nécessaire
+            },
+            body: JSON.stringify(data)
+        }).then(response => response.json())
+          .then(data => {
+              console.log('Success:', data);
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
+    }
+}
+
+document.getElementById("derouleButton").addEventListener("click", function () {
+    let selectElements = document.querySelectorAll("select[id^='question_']");
+    selectElements.forEach(function (selectElement) {
+        addOptions(selectElement);
+    });
+});
+
+function styleAndAppendElement(target, element) {
+appendInputAndSubmitButton(target, element);
+}
+
+function createUploaderWithQuestion() {
+let mainContainer = document.createElement("div");
+mainContainer.style.display = 'flex';
+mainContainer.style.flexDirection = 'column';
+mainContainer.style.alignItems = 'flex-start';
+mainContainer.style.width = '100%';
+mainContainer.style.marginTop = '20px';
+
+// Question Input Container
+let questionContainer = document.createElement("div");
+let questionInput = document.createElement("input");
+questionInput.type = "text";
+questionInput.className = "question";
+questionInput.contentEditable = "true";
+questionInput.placeholder = "Enter your question here";
+questionInput.name = "yesNoQuestion";
+questionInput.style.width = "100%"; // Width relative to main container
+questionInput.style.padding = "10px";
+questionInput.style.marginRight = "400px";
+questionInput.style.fontSize = "16px";
+questionInput.style.marginBottom = "20px"; // Space between question and image box
+questionInput.style.borderTop = "none";
+questionInput.style.borderLeft = "none";
+questionInput.style.borderRight = "none";
+questionInput.style.borderRadius = "0";
+questionInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+questionInput.style.backgroundColor = "transparent"; // Set background to transparent
+questionContainer.appendChild(questionInput);
+
+// Image Uploader Container
+let uploaderContainer = document.createElement("div");
+uploaderContainer.style.display = 'flex';
+uploaderContainer.style.flexDirection = 'row';
+uploaderContainer.style.alignItems = 'flex-start';
+uploaderContainer.style.width = '100%';
+
+// Persistent Add Image container
+let addImageContainer = document.createElement("div");
+addImageContainer.style.margin = "10px";
+addImageContainer.style.padding = "10px";
+addImageContainer.style.border = "2px dashed #007BFF";
+addImageContainer.style.borderRadius = "10px";
+addImageContainer.style.width = '200px';
+addImageContainer.style.height = '200px';
+addImageContainer.style.display = 'flex';
+addImageContainer.style.flexDirection = 'column';
+addImageContainer.style.alignItems = 'center';
+addImageContainer.style.justifyContent = 'center';
+addImageContainer.style.backgroundColor = '#fff';
+addImageContainer.style.cursor = 'pointer';
+addImageContainer.innerHTML = `<i class="fas fa-plus"></i>`;
+// using font awesome icon
+
+// File input for image uploads
+let fileInput = document.createElement("input");
+fileInput.type = "file";
+fileInput.accept = "image/*";
+fileInput.style.display = "none";
+fileInput.multiple = true;
+fileInput.addEventListener('change', function (event) {
+handleFileSelect(event, uploaderContainer, addImageContainer);
+});
+
+addImageContainer.addEventListener('click', function () {
+fileInput.click();
+});
+
+// Append file input and add image container to uploader container
+uploaderContainer.appendChild(fileInput);
+uploaderContainer.appendChild(addImageContainer);
+
+// Append question container and uploader container to main container
+mainContainer.appendChild(questionContainer);
+mainContainer.appendChild(uploaderContainer);
+
+return mainContainer;
+}
+
+function handleFileSelect(event, uploaderContainer, addImageContainer) {
+let files = event.target.files;
+
+Array.from(files).forEach(file => {
+if (file.type.startsWith('image/')) {
+let imageContainer = document.createElement("div");
+imageContainer.style.margin = "10px";
+imageContainer.style.width = '200px';
+imageContainer.style.height = '200px';
+imageContainer.style.border = "2px solid #007BFF";
+imageContainer.style.borderRadius = "10px";
+imageContainer.style.overflow = "hidden";
+imageContainer.style.position = "relative";
+
+let img = document.createElement("img");
+img.style.width = "100%";
+img.style.height = "100%";
+img.style.objectFit = "cover";
+
+imageContainer.appendChild(img);
+
+// Insert new image container before the add image container
+uploaderContainer.insertBefore(imageContainer, addImageContainer);
+
+let reader = new FileReader();
+reader.onload = (function (theImg) {
+return function (e) {
+theImg.src = e.target.result;
+};
+})(img);
+reader.readAsDataURL(file);
+}
+});
+}
+
+
+// ////////BUTTON//////////////
+function appendInputAndSubmitButton(target, input) {
+var submitButton = target.querySelector('button[type="submit"]');
+if (submitButton) {
+target.insertBefore(input, submitButton);
+} else {
+target.appendChild(input);
+createSubmitButton(target);
+}
+}
+
+function createSubmitButton(target) {
+var submitButton = document.createElement("button");
+submitButton.type = "submit";
+submitButton.textContent = "Envoyer";
+submitButton.style = "margin-top: 10px; padding: 10px 20px; background-color: #050A78; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 16px;";
+submitButton.className = "editable";
+submitButton.id = "submitB";
+target.appendChild(submitButton);
+submitButton.addEventListener('click', function () {
+console.log('Le bouton a été cliqué!'); // Vérifier si cet événement se déclenche
+});
+
+target.appendChild(submitButton);
+console.log("Bouton ajouté au DOM"); // Confirmer que le bouton est ajouté
+}
+ document.getElementById('submitB').addEventListener('click', function() {
+            fetch('http://localhost:8000/new/{projetId}')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.link);  // Log the unique link
+                    alert('Your unique link: ' + data.link); // Show the link in an alert or use it as needed
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+/*document.getElementById('submitB').addEventListener('click', function() {
+    let formData = captureFormData(); // Votre fonction pour capturer les données du formulaire
+
+    fetch('/save-survey', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ structure: formData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Survey saved with ID:', data.id);
+        } else {
+            console.error('Failed to save survey');
+        }
+    })
+    .catch(error => console.error('Error saving survey:', error));
+});*/
+
+
+let selectedElement = null;
+document.querySelectorAll('.editable').forEach(item => {
+item.addEventListener('click', function () {
+if (selectedElement) {
+selectedElement.classList.remove('selected');
+}
+selectedElement = this;
+this.classList.add('selected');
+});
+});
+
+function applyStyle(property, value) {
+if (selectedElement) {
+selectedElement.style[property] = value;
+}
+}
+
+// description page///
+function toggleCard() {
+var card = document.getElementById('expandableCard');
+var content = card.querySelector('.card-content');
+var plusIcon = card.querySelector('.plus-icon');
+
+// Toggle the height and content display based on current state
+if (card.style.height === '600px' || plusIcon.textContent === '-') { // If the card is expanded or the icon is '-', collapse the card
+card.style.height = '49px'; // Collapse the card
+content.style.display = 'none'; // Hide the content
+plusIcon.textContent = '+'; // Change the icon to '+'
+} else { // Otherwise, expand the card
+card.style.height = '400px'; // Expand the card
+content.style.display = 'block'; // Show the content
+plusIcon.textContent = '-'; // Change the icon to '-'
+}
+}
+
+function toggleCard2() {
+var card = document.getElementById('expandableCard2');
+var content = card.querySelector('.card-content');
+var plusIcon = card.querySelector('.plus-icon');
+
+// Toggle the height and content display based on current state
+if (card.style.height === '600px' || plusIcon.textContent === '-') { // If the card is expanded or the icon is '-', collapse the card
+card.style.height = '49px'; // Collapse the card
+content.style.display = 'none'; // Hide the content
+plusIcon.textContent = '+'; // Change the icon to '+'
+} else { // Otherwise, expand the card
+card.style.height = '300px'; // Expand the card
+content.style.display = 'block'; // Show the content
+plusIcon.textContent = '-'; // Change the icon to '-'
+}
+}
+
+// //////////// //////////////////////////  //////////
+// riiiiightttt
+function toggleSidebarRight() {
+document.getElementById('sidebar-right').classList.toggle('active');
+}
+
+
+// sidebarright
+function toggleSidebarRight() {
+var sidebarRight = document.getElementById("sidebar-right");
+var toggleBtnRight = document.getElementById("toggle-btn-right");
+if (sidebarRight.style.right === '0px') {
+sidebarRight.style.right = '-370px';
+toggleBtnRight.style.zIndex = '0'; // Bring the button back in view
+} else {
+sidebarRight.style.right = '0px';
+
+}
+}
+
+// upload image logo PAGE DACCEUIL//
+function allowDrop(event) {
+event.preventDefault(); // Prevent default behavior (Prevent file from being opened)
+}
+
+function dropPhoto(event) {
+event.preventDefault();
+var files = event.dataTransfer.files; // Obtain the file dragged into the drop zone
+displayImage(files[0]); // Assume a single file and attempt to display it
+}
+
+function uploadFile(files) {
+displayImage(files[0]); // Display the first file if multiple files are selected
+}
+
+function displayImage(file) {
+if (file && file.type.match('image.*')) { // Ensure the file is an image
+var reader = new FileReader();
+reader.onload = function (e) {
+var displayedImage = document.getElementById('displayedImage');
+displayedImage.src = e.target.result; // Set the src of img element to the read file
+displayedImage.style.display = 'block'; // Make the image visible
+};
+reader.readAsDataURL(file); // Read the file as a Data URL (base64)
+} else {
+alert('Please drop an image file.');
+}
+}
+
+function changeImageSize(size) {
+var img = document.getElementById('displayedImage');
+if (size === 'small') {
+img.style.width = '100px';
+} else if (size === 'medium') {
+img.style.width = '200px'; // Medium size width
+} else if (size === 'large') {
+img.style.width = '500px'; // Large size width
+}img.style.height = 'auto'; // Maintain aspect ratio
+}
+
+function alignImage(position) {
+var container = document.getElementById('imageContainer'); // Obtenez le conteneur Flex
+if (container) {
+switch (position) {
+case 'left': container.style.justifyContent = 'flex-start'; // Alignement à gauche
+break;
+case 'center': container.style.justifyContent = 'center'; // Alignement au centre
+break;
+case 'right': container.style.justifyContent = 'flex-end'; // Alignement à droite
+break;
+case 'top': container.style.alignItems = 'flex-start'; // Alignement à droite
+break;
+case 'bottom': container.style.alignItems = 'flex-end'; // Alignement à droite
+break;
+default:
+console.error('Invalid position specified'); // Gestion des erreurs si la position n'est pas valide
+break;
+}
+} else {
+console.error('Container not found!'); // Log an error if the container is not found
+}
+}
+// TAIILE TITLE ///
+document.getElementById('small').addEventListener('click', function () {
+applyStyle('fontSize', '12px'); // Taille petite
+});
+
+document.getElementById('medium').addEventListener('click', function () {
+applyStyle('fontSize', '18px'); // Taille moyenne
+});
+
+document.getElementById('large').addEventListener('click', function () {
+applyStyle('fontSize', '24px'); // Taille grande
+});
+
+// DROP IMAGE FOR THANK U PAGE//
+function allowDrop3(event) {
+event.preventDefault();
+}
+
+function dropPhoto3(event) {
+event.preventDefault();
+var files = event.dataTransfer.files;
+displayImage3(files[0]);
+}
+
+function uploadFile3(files) {
+displayImage3(files[0]);
+}
+
+function displayImage3(file) {
+if (file && file.type.match('image.*')) {
+var reader = new FileReader();
+reader.onload = function (e) {
+var displayedImage3 = document.getElementById('displayedImage3'); // Assurez-vous que cet ID est unique
+displayedImage3.src = e.target.result;
+displayedImage3.style.display = 'block';
+};
+reader.readAsDataURL(file);
+} else {
+alert('Please drop an image file.');
+}
+}
+function changeImage3Size(size) {
+var img = document.getElementById('displayedImage3');
+if (size === 'small') {
+img.style.width = '100px';
+} else if (size === 'medium') {
+img.style.width = '200px'; // Medium size width
+} else if (size === 'large') {
+img.style.width = '500px'; // Large size width
+}img.style.height = 'auto'; // Maintain aspect ratio
+}
+function alignImage3(position) {
+var container = document.getElementById('imageContainer3'); // Obtenez le conteneur Flex
+if (container) {
+switch (position) {
+case 'left': container.style.justifyContent = 'flex-start'; // Alignement à gauche
+break;
+case 'center': container.style.justifyContent = 'center'; // Alignement au centre
+break;
+case 'right': container.style.justifyContent = 'flex-end'; // Alignement à droite
+break;
+default:
+console.error('Invalid position specified'); // Gestion des erreurs si la position n'est pas valide
+break;
+}
+} else {
+console.error('Container not found!'); // Log an error if the container is not found
+}
+}
+// DESCRIPTION TAILLE//
+function changeSize(size) {
+var descriptionInput = document.getElementById('descriptionInput');
+if (! descriptionInput) {
+console.error('Element not found.');
+return;
+}
+
+switch (size) {
+case 'small': descriptionInput.style.fontSize = '12px'; // Petite taille
+break;
+case 'medium': descriptionInput.style.fontSize = '16px'; // Taille moyenne
+break;
+case 'large': descriptionInput.style.fontSize = '20px'; // Grande taille
+break;
+default: descriptionInput.style.fontSize = '16px'; // Taille par défaut
+}
+}
+
+// Fonction pour appliquer un style
+function applyStyle(element, property, value) {
+element.style[property] = value;
+}
+function applyStyle3(property, value) {
+var element = document.getElementById('descriptionInput'); // Assurez-vous que cet ID correspond à votre élément de description
+if (element) {
+element.style[property] = value;
+} else {
+console.error('Element not found.');
+}
+}
+
+
+// BOLD//
+function toggleBold() {
+if (selectedElement) { // Vérifie si l'élément a déjà le style gras
+if (selectedElement.style.fontWeight === 'bold' || selectedElement.style.fontWeight === '700') {
+selectedElement.style.fontWeight = 'normal'; // Si oui, le remet à normal
+} else {
+selectedElement.style.fontWeight = 'bold'; // Sinon, le rend gras
+}
+} else {
+alert("Please select an element first."); // Alert si aucun élément n'est sélectionné
+}
+}
+
+// ITALIC AND UNDERLINE//
+function toggleItalic() {
+if (selectedElement) { // Bascule le style italique
+selectedElement.style.fontStyle = selectedElement.style.fontStyle === 'italic' ? 'normal' : 'italic';
+} else {
+alert("Please select an element first.");
+}
+}
+
+function toggleUnderline() {
+if (selectedElement) { // Bascule le soulignement
+selectedElement.style.textDecoration = selectedElement.style.textDecoration === 'underline' ? 'none' : 'underline';
+} else {
+alert("Please select an element first.");
+}
+}
+// ALIGNTEXT//
+function alignText(alignment) {
+if (selectedElement) {
+selectedElement.style.textAlign = alignment;
+} else {
+alert("Please select an element first.");
+}
+}
+// Raduis//
+function changeBorderRadius(radius) {
+var element = document.getElementById('targetElement'); // Assurez-vous que cet ID correspond à votre élément cible
+if (element) {
+element.style.borderRadius = radius + 'px';
+} else {
+console.error('Element not found');
+}
+}
+
+
+// Get the buttons for Taille
+const tailleButtons = document.querySelectorAll('.taille-btn');
+
+// Add event listener to each button for Taille
+tailleButtons.forEach(button => {
+button.addEventListener('click', () => { // Remove active class from all buttons for Taille
+tailleButtons.forEach(btn => btn.classList.remove('active'));
+
+// Add active class to the clicked button for Taille
+button.classList.add('active');
+
+// Change button colors based on active state for Taille
+tailleButtons.forEach(btn => {
+if (btn.classList.contains('active')) {
+btn.style.backgroundColor = '#050A78';
+btn.style.color = 'white'; // Set text color to white
+} else {
+btn.style.backgroundColor = '#C2C2E7';
+btn.style.color = '#333'; // Set text color to default
+}
+});
+});
+});
+
+
+// changement color droite gauche positionnement
+
+// Get the buttons
+const buttons = document.querySelectorAll('.position-btn');
+
+// Add event listener to each button
+buttons.forEach(button => {
+button.addEventListener('click', () => { // Remove active class from all buttons
+buttons.forEach(btn => btn.classList.remove('active'));
+
+// Add active class to the clicked button
+button.classList.add('active');
+
+// Change button colors based on active state
+buttons.forEach(btn => {
+if (btn.classList.contains('active')) {
+btn.style.backgroundColor = '#050A78';
+btn.style.color = 'white'; // Set text color to white
+} else {
+btn.style.backgroundColor = '#C2C2E7';
+btn.style.color = '#333'; // Set text color to default
+}
+});
+});
+});
+
+
+// changement color haut bas positionnement
+
+// Get the buttons for alignment
+const alignButtons = document.querySelectorAll('.align-btn');
+
+// Add event listener to each button for alignment
+alignButtons.forEach(button => {
+button.addEventListener('click', () => { // Remove active class from all buttons for alignment
+alignButtons.forEach(btn => btn.classList.remove('active'));
+
+// Add active class to the clicked button for alignment
+button.classList.add('active');
+
+// Change button colors based on active state for alignment
+alignButtons.forEach(btn => {
+if (btn.classList.contains('active')) {
+btn.style.backgroundColor = '#050A78';
+btn.style.color = 'white'; // Set text color to white
+} else {
+btn.style.backgroundColor = '#C2C2E7';
+btn.style.color = '#333'; // Set text color to default
+}
+});
+});
+});
+
+
+// changement color taille titre
+// Function to toggle size button color and style for the first set
+function toggleSizeColor(identifier, button) {
+const sizeButtons = document.querySelectorAll(`.${identifier}`);
+
+sizeButtons.forEach(btn => {
+btn.classList.remove('active');
+btn.style.backgroundColor = '#C2C2E7';
+btn.style.color = '#333';
+});
+
+button.classList.add('active');
+button.style.backgroundColor = '#050A78';
+button.style.color = 'white';
+}
+
+// changement color les button mta B U I Positionnement
+
+function toggleColor(btnId) {
+const button = document.getElementById(btnId);
+const currentColor = button.style.backgroundColor;
+
+if (currentColor === 'rgb(194, 194, 231)') { // Check if color is C2C2E7
+button.style.backgroundColor = ''; // Reset color to default (transparent)
+} else {
+button.style.backgroundColor = '#C2C2E7'; // Change color to C2C2E7
+}
+}
+
+
+// changement color taille discription
+
+function toggleSizeColor1(identifier, button) {
+const sizeButtons = document.querySelectorAll(`.${identifier}`);
+
+sizeButtons.forEach(btn => {
+btn.classList.remove('active');
+btn.style.backgroundColor = '#C2C2E7';
+btn.style.color = '#333';
+});
+
+button.classList.add('active');
+button.style.backgroundColor = '#050A78';
+button.style.color = 'white';
+}
+
+
+// changement the buttons radius
+function changeConnexionButtonRadius(radius) {
+var connexionButton = document.getElementById('connexion-button');
+connexionButton.style.borderRadius = radius + '%';
+}
+
+
+var defaultIntroContent = `
+    				<div class="row">
+					<div class="col-auto">
+						<div class="sidebar-header">
+							<div class="row mx-2">
+								<h4 class="fw-bold" style="color: #050A78;">Logo</h4>
+								<button type="button" class="btn-close" aria-label="Close" onclick="toggleSidebarRight()"></button>
+							</div>
+						</div>
+						<!--sidebar-header -->
+
+						<div
+							class="row justify-content-center">
+							<!-- Center the drop zone horizontally -->
+							<div class="bg-white col-auto m-2" style="border-radius: 20px; height: 100px; width:250px;">
+								<div class="d-flex justify-content-center align-items-center h-100">
+									<!-- Center content vertically and horizontally -->
+									<!-- Drop zone for photos -->
+										<div class="row drop-zone2" id="photo-drop-zone2" ondrop="dropPhoto(event)" ondragover="allowDrop(event)"> <div style="font-size: 15px;">Glisser votre logo</div>
+										<form>
+											<div class="form-group">
+												<input type="file" class="form-control-file small-input1" id="exampleFormControlFile1" onchange="uploadFile(this.files)">
+											</div>
+										</form>
+
+									</div>
+								</div>
+
+							</div>
+							<!-- Your sidebar content here -->
+						</div>
+					</div>
+					<!-- dropphoto -->
+
+
+					<!-- Taille 1-->
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Taille</div>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="taille-buttons">
+							<button class="btn taille-btn" onclick="changeImageSize('small')" style="background: #C2C2E7;">
+
+								Petit
+
+							</button>
+							<button class="btn taille-btn " onclick="changeImageSize('medium')" style="background: #C2C2E7;">
+
+								Moy
+
+							</button>
+							<button class="btn taille-btn" onclick="changeImageSize('large')" style="background: #C2C2E7;">
+
+								Grand
+
+							</button>
+						</div>
+					</div>
+					<!-- taille -->
+
+
+					<!-- Positionnement -->
+					<div class="row mt-3 m-2">
+						<h5 class="fw-bold" style="color: #050A78;">Positionnement</h5>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="positionnement-buttons">
+							<button class="btn position-btn" style="background: #C2C2E7;" onclick="alignImage('right')">
+
+								Droite
+
+							</button>
+							<button class="btn position-btn " style="background: #C2C2E7;" onclick="alignImage('center')">
+
+								Centre
+
+							</button>
+							<button class="btn position-btn" style="background: #C2C2E7;"  onclick="alignImage('left')">
+								Gauche
+							</button>
+						</div>
+	
+					</div>
+					<!-- Positionnement -->
+
+
+					<!-- titre -->
+					<div class="row m-2 mt-3">
+						<h5 class="fw-bold" style="color: #050A78;">Titre</h5>
+					</div>
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Texte
+						</div>
+					</div>
+					<div class="row form-group m-2 mt-3 ">
+				  <select id="fontPicker" onchange="applyStyle('fontFamily', this.value)">
+                     <option value="Arial">Arial</option>
+                     <option value="Verdana">Verdana</option>
+                      <option value="Times New Roman">Times</option>
+                   </select>
+					</div>
+
+
+					<!-- taille 2-->
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Taille</div>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="size-buttons">
+							<button class="btn size-btn" style="background: #C2C2E7;"  id="small">
+								Petit
+							</button>
+							<button class="btn size-btn" style="background: #C2C2E7;" id="medium">
+								Moy
+							</button>
+							<button class="btn size-btn" style="background: #C2C2E7;" id="large">
+								Grand
+							</button>
+						</div>
+					</div>
+					<!-- taille -->
+
+
+					<!-- parametre de texte -->
+					<div
+						class="text-formatting-bar mt-3 d-flex align-items-center">
+
+						<!-- Bold Button -->
+						<button class="btn" id="bold-btn" onclick="toggleBold()">
+							<i class="bi bi-type-bold">B</i>
+						</button>
+
+						<!-- Italic Button -->
+						<button class="btn" id="italic-btn" onclick="toggleItalic()">
+							<i class="bi bi-type-italic">I</i>
+						</button>
+
+						<!-- Underline Button -->
+						<button class="btn" id="underline-btn" onclick="toggleUnderline()">
+							<i class="bi bi-type-underline">U</i>
+						</button>
+
+						<!-- Align Left Button -->
+						<button class="btn ms-auto" id="align-left-btn"onclick="alignText('left')">
+							<i class="fas fa-align-left"></i>
+						</button>
+
+						<!-- Align Center Button -->
+						<button class="btn" id="align-center-btn"onclick="alignText('center')">
+							<i class="fas fa-align-center"></i>
+						</button>
+
+						<!-- Align Right Button -->
+						<button class="btn" id="align-right-btn" onclick="alignText('right')">
+							<i class="fas fa-align-right"></i>
+						</button>
+
+						<!-- Justify Button -->
+						<button class="btn" id="align-justify-btn" onclick="alignText('justify')">
+							<i class="fas fa-align-justify"></i>
+						</button>
+					</div>
+
+
+				      <div class="row mt-3 m-2 fw-bold" style="color: #050A78;">
+    <div class="col-auto">Radius</div>
+    <div class="col-auto btn-group">
+        <button class="btn btn-outline-secondary radius-button" onclick="changeBorderRadius(0)">
+            <i class="fas fa-square"></i> <!-- Square icon -->
+        </button>
+        <button class="btn btn-outline-secondary radius-button" onclick="changeBorderRadius(10)">
+            <i class="fas fa-circle"></i> <!-- Circle icon -->
+        </button>
+        <button class="btn btn-outline-secondary radius-button" onclick="changeBorderRadius(50)">
+            <i class="fas fa-adjust"></i> <!-- Adjust icon -->
+        </button>
+    </div>
+</div>
+					<!-- Description  -->
+				</div>
+				<!-- col -->
+			<!--row -->
+		</div>`;
+
+function changeContent(section) {
+var contentPlaceholder = document.getElementById('content-placeholder');
+var buttons = document.querySelectorAll('.button-bar button');
+
+// Highlight the active button
+buttons.forEach(button => button.classList.remove('active'));
+Array.from(buttons).find(button => button.getAttribute('onclick').includes(section)).classList.add('active');
+
+// Switch content based on section
+if (section === 'intro') {
+contentPlaceholder.innerHTML = defaultIntroContent; // Ensure this variable contains the default intro content
+} else {
+switch (section) {
+case 'couleur':
+// Replace with actual content for 'Couleur'
+contentPlaceholder.innerHTML = `   
+                    <div class="color-picker-container row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Arrière plan </h4>
+                        </div>
+                        <div class="row mx-3">
+                       <input type="color" class="color-picker mx-3  col-7 " id="color-picker-1" name="color1" value="#C2C2E7" >
+                    
+                      <label class="btn btn-light col-2 fw-bold btn-sm">
+                        <i class="bi bi-image"></i> <span class="plus-icon">+</span>
+                          <input type="file" class="d-none">
+                         </label>
+                      
+                      </div>
+
+                   <div class="color-picker-container row mx-2">
+                   <h4 class="fw-bold" style="color: #050A78;">Questions</h4>
+                   <div class="row mx-2">
+                      <input type="color" class="color-picker m-2" id="color-picker-2" name="color2" value="#C2C2E7" onchange="applyStyle('color', this.value)">
+                  </div>
+                </div>
+
+                    <div class="color-picker-container row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Button</h4>
+                            <div class="row m-2 fw-bold" style="color: #050A78;"><div>Texte</div></div>
+                            <div class="row mx-2">
+                    <input type="color" class="color-picker m-2 " id="color-picker-3" name="color3" value="#C2C2E7">
+                    </div>
+                   </div>
+
+                    <div class="color-picker-container row mx-2">
+                   <div class="row m-2 fw-bold" style="color: #050A78;"> <div>Arrière plan</div></div>
+                    <div class="row mx-2">
+                    <input type="color" class="color-picker m-2 " id="color-picker-4" name="color4" value="#C2C2E7">
+                   </div>
+                </div>
+  
+                <h4 class="fw-bold row mx-2" style="color: #050A78;">Modèle </h4>
+        <div class="cardcolor-container justify-content-center " onclick="handleCardClick()">
+            <div class="cardcolor color1 m-3">
+                <div class="cardcolor-header"></div>
+                <div class="cardcolor-button">text</div>
+            </div>
+            <div class="cardcolor color2 m-3">
+                <div class="cardcolor-header"></div>
+                <div class="cardcolor-button">text</div>
+            </div>
+            <div class="cardcolor color3 m-3">
+                <div class="cardcolor-header"></div>
+                <div class="cardcolor-button">text</div>
+            </div>
+            <div class="cardcolor color4 m-3">
+                <div class="cardcolor-header"></div>
+                <div class="cardcolor-button">text</div>
+            </div>
+        </div>
+            `;
+break;
+case 'style':
+// Replace with actual content for 'style'
+contentPlaceholder.innerHTML = `
+
+                    <div class="sidebar-header">
+                        <div class="row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Questions</h4>
+                            <button type="button" class="btn-close" aria-label="Close"
+                                onclick="toggleSidebarRight()"></button>
+                        </div>
+                    </div> <!--sidebar-header -->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+					<div class="row form-group m-2 mt-3 ">
+				  <select id="fontPicker" onchange="applyFontStyle(this.value)">
+                     <option value="Arial">Arial</option>
+                     <option value="Verdana">Verdana</option>
+                      <option value="Times New Roman">Times</option>
+                   </select>
+					</div>
+
+
+                    
+                    <!-- taille 3 -->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons-1">
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                 Petit 
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                 Moy 
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                 Grand 
+                            </button>
+                        </div>
+                    </div> <!-- taille -->
+
+
+
+
+                    <!-- parametre de texte -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn" onclick="toggleTextStyle('bold-btn')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn" onclick="toggleTextStyle('italic-btn')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn" onclick="toggleTextStyle('underline-btn')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn" onclick="toggleTextAlignment('align-left-btn')"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn" onclick="toggleTextAlignment('align-center-btn')"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn" onclick="toggleTextAlignment('align-right-btn')"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn" onclick="toggleTextAlignment('align-justify-btn')"><i class="fas fa-align-justify"></i></button>
+
+                    </div>
+
+
+                    <!-- Buttons -->
+                    <div class="row m-2 mt-3">
+                        <h5 class="fw-bold" style="color: #050A78;">Buttons</h5>
+                    </div>
+
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+				  <select id="fontPicker" onchange="applyFontButtonStyle(this.value)">
+                     <option value="Arial">Arial</option>
+                     <option value="Verdana">Verdana</option>
+                      <option value="Times New Roman">Times</option>
+                   </select>
+                    </div>
+
+
+                    <!-- parametre de texte -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn2" onclick="toggleColor('bold-btn2')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn2" onclick="toggleColor('italic-btn2')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn2" onclick="toggleColor('underline-btn2')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="alignBtn-left-btn" onclick="toggleTextButtonAlignment('alignBtn-left-btn')"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="alignBtn-center-btn" onclick="toggleTextButtonAlignment('alignBtn-center-btn')"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="alignBtn-right-btn"onclick="toggleTextButtonAlignment('alignBtn-right-btn')"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="alignBtn-justify-btn"onclick="toggleTextButtonAlignment('alignBtn-justify-btn')"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+                  
+                    <!-- Arrière plan-->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Arrière plan</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons">
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeButton('Petit', this)">
+                                 Petit 
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeButton('Moy', this)">
+                                Moy 
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeButton('Grand', this)">
+                                 Grand 
+                            </button>
+                        </div>
+                    </div> <!-- taille2 -->
+
+                    <!-- Radius  -->
+                    <div class="row mt-3 m-2 fw-bold" style="color: #050A78;">
+                        <div class="col-auto">Radius </div>
+                        <div class="col-auto btn-group">
+                            <button class="btn btn-outline-secondary radius-button" onclick="changeConnexionButtonRadius(0)">
+                        <i class="fas fa-square"></i> <!-- Square icon -->
+                        </button>
+                        <button class="btn btn-outline-secondary radius-button" onclick="changeConnexionButtonRadius(10)">
+                         <i class="fas fa-circle"></i> <!-- Circle icon -->
+                         </button>
+                          <button class="btn btn-outline-secondary radius-button" onclick="changeConnexionButtonRadius(100)">
+                         <i class="fas fa-adjust"></i> <!-- Adjust icon -->
+                         </button>
+                        </div>
+                    </div>
+                    
+                   
+
+
+
+                </div> <!-- Sidebar right -->
+            </div><!--row -->
+        </div><!-- contenu Sidebar right -->
+    </div> <!--content-placeholder -->
+            `;
+break;
+case 'fin':
+// Replace with actual content for 'fin '
+contentPlaceholder.innerHTML = `
+<div class="row">
+
+
+					<div class="col-auto">
+						<div class="sidebar-header">
+							<div class="row mx-2">
+								<h4 class="fw-bold" style="color: #050A78;">Logo</h4>
+								<button type="button" class="btn-close" aria-label="Close" onclick="toggleSidebarRight()"></button>
+							</div>
+						</div>
+						<!--sidebar-header -->
+
+						<div
+							class="row justify-content-center">
+							<!-- Center the drop zone horizontally -->
+							<div class="bg-white col-auto m-2" style="border-radius: 20px; height: 100px; width:250px;">
+								<div class="d-flex justify-content-center align-items-center h-100">
+									<!-- Center content vertically and horizontally -->
+									<!-- Drop zone for photos -->
+										<div class="row drop-zone3" id="photo-drop-zone3" ondrop="dropPhoto3(event)" ondragover="allowDrop3(event)"> <div style="font-size: 15px;">Glisser votre logo</div>
+										<form>
+											<div class="form-group">
+												<input type="file" class="form-control-file small-input2" id="exampleFormControlFile2" onchange="uploadFile3(this.files)">
+											</div>
+										</form>
+
+									</div>
+								</div>
+
+							</div>
+							<!-- Your sidebar content here -->
+						</div>
+					</div>
+					<!-- dropphoto -->
+
+
+					<!-- Taille 1-->
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Taille</div>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="taille-buttons">
+							<button class="btn taille-btn" onclick="changeImage3Size('small')" style="background: #C2C2E7;">
+
+								Petit
+
+							</button>
+							<button class="btn taille-btn " onclick="changeImage3Size('medium')" style="background: #C2C2E7;">
+
+								Moy
+
+							</button>
+							<button class="btn taille-btn" onclick="changeImage3Size('large')" style="background: #C2C2E7;">
+
+								Grand
+
+							</button>
+						</div>
+					</div>
+					<!-- taille -->
+
+
+					<!-- Positionnement -->
+					<div class="row mt-3 m-2">
+						<h5 class="fw-bold" style="color: #050A78;">Positionnement</h5>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="positionnement-buttons">
+							<button class="btn position-btn" style="background: #C2C2E7;" onclick="alignImage3('right')">
+
+								Droite
+
+							</button>
+							<button class="btn position-btn " style="background: #C2C2E7;" onclick="alignImage3('center')">
+
+								Centre
+
+							</button>
+							<button class="btn position-btn" style="background: #C2C2E7;"  onclick="alignImage3('left')">
+								Gauche
+							</button>
+						</div>
+					</div>
+					<!-- Positionnement -->
+
+
+					<!-- titre -->
+					<div class="row m-2 mt-3">
+						<h5 class="fw-bold" style="color: #050A78;">Description</h5>
+					</div>
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Texte
+						</div>
+					</div>
+					<div class="row form-group m-2 mt-3 ">
+				  <select id="fontPicker" onchange="applyStyle3('fontFamily', this.value)">
+                     <option value="Arial">Arial</option>
+                     <option value="Verdana">Verdana</option>
+                      <option value="Times New Roman">Times</option>
+                   </select>
+					</div>
+
+
+					<!-- taille 2-->
+					<div class="row m-2 fw-bold" style="color: #050A78;">
+						<div>Taille</div>
+					</div>
+
+					<div class="row">
+						<div class="btn-group" id="size-buttons">
+							<button class="btn size-btn" style="background: #C2C2E7;"  id="small" onclick="changeSize('small')">
+								Petit
+							</button>
+							<button class="btn size-btn" style="background: #C2C2E7;" id="medium" onclick="changeSize('medium')">
+								Moy
+							</button>
+							<button class="btn size-btn" style="background: #C2C2E7;" id="large" onclick="changeSize('large')">
+								Grand
+							</button>
+						</div>
+					</div>
+					<!-- taille -->
+
+
+					<!-- parametre de texte -->
+					<div
+						class="text-formatting-bar mt-3 d-flex align-items-center">
+
+						<!-- Bold Button -->
+						<button class="btn" id="bold-btn" onclick="toggleBold()">
+							<i class="bi bi-type-bold">B</i>
+						</button>
+
+						<!-- Italic Button -->
+						<button class="btn" id="italic-btn" onclick="toggleItalic()">
+							<i class="bi bi-type-italic">I</i>
+						</button>
+
+						<!-- Underline Button -->
+						<button class="btn" id="underline-btn" onclick="toggleUnderline()">
+							<i class="bi bi-type-underline">U</i>
+						</button>
+
+						<!-- Align Left Button -->
+						<button class="btn ms-auto" id="align-left-btn"onclick="alignText('left')">
+							<i class="fas fa-align-left"></i>
+						</button>
+
+						<!-- Align Center Button -->
+						<button class="btn" id="align-center-btn"onclick="alignText('center')">
+							<i class="fas fa-align-center"></i>
+						</button>
+
+						<!-- Align Right Button -->
+						<button class="btn" id="align-right-btn" onclick="alignText('right')">
+							<i class="fas fa-align-right"></i>
+						</button>
+
+						<!-- Justify Button -->
+						<button class="btn" id="align-justify-btn" onclick="alignText('justify')">
+							<i class="fas fa-align-justify"></i>
+						</button>
+					</div>
+
+
+				
+                       </div>
+					<!-- Description  -->
+				</div>
+				<!-- col -->
+			<!--row -->
+		</div>`;
+
+
+break;
+}
+}
+}
+function applyStyle(property, value) {
+if (selectedElement) {
+selectedElement.style[property] = value;
+}
+}
+// COLORS//
+document.addEventListener('DOMContentLoaded', function () {
+document.body.addEventListener('change', function (event) {
+if (event.target.classList.contains('color-picker')) { // Change the background color of the body for 'color-picker-1'
+if (event.target.id === 'color-picker-1') {
+document.body.style.backgroundColor = event.target.value;
+}
+// Change the text color of question field for 'color-picker-2'
+if (event.target.id === 'color-picker-2') { // Using getElementsByClassName returns a HTMLCollection
+var elements = document.getElementsByClassName('question');
+if (elements.length > 0) { // Change the color for all elements with the class 'questionInput'
+Array.from(elements).forEach(function (element) {
+element.style.color = event.target.value;
+});
+} else {
+console.error("No elements found with the class 'questionInput'");
+}
+}
+// Change the background color of the submit button for 'color-picker-3'
+if (event.target.id === 'color-picker-4') {
+var submitButton = document.querySelector('button[type="submit"]');
+if (submitButton) {
+submitButton.style.backgroundColor = event.target.value;
+} else {
+console.error("Submit button not found.");
+}
+}
+// Change the text color of the submit button for 'color-picker-4'
+if (event.target.id === 'color-picker-3') {
+var submitButton = document.querySelector('button[type="submit"]');
+if (submitButton) {
+submitButton.style.color = event.target.value;
+} else {
+console.error("Submit button not found.");
+}
+}
+}
+});
+});
+// PAGE STYLE TEXT//
+function toggleSizeColor1(sizeClass, element) { // Define the font sizes for each button
+var sizeMap = {
+'Petit': '12px', // Smaller size
+'Moy': '16px', // Medium size
+'Grand': '20px' // Larger size
+};
+
+// Get all elements with the class 'question'
+var questions = document.getElementsByClassName('question');
+
+// Set the font size of all elements with the class 'question'
+Array.from(questions).forEach(function (question) {
+question.style.fontSize = sizeMap[element.textContent.trim()];
+});
+
+// Optional: Update button appearance to indicate selected size
+var buttons = document.getElementsByClassName(sizeClass);
+Array.from(buttons).forEach(function (btn) {
+btn.style.backgroundColor = '#C2C2E7'; // Reset all buttons to default
+});
+element.style.backgroundColor = '#A0A0FF'; // Highlight the clicked button
+}
+function toggleTextStyle(styleType) {
+var questions = document.querySelectorAll('.question');
+
+questions.forEach(function (question) {
+switch (styleType) {
+case 'bold-btn':
+// Toggle bold
+question.style.fontWeight = question.style.fontWeight === 'bold' ? 'normal' : 'bold';
+break;
+case 'italic-btn':
+// Toggle italic
+question.style.fontStyle = question.style.fontStyle === 'italic' ? 'normal' : 'italic';
+break;
+case 'underline-btn':
+// Toggle underline
+question.style.textDecoration = question.style.textDecoration.includes('underline') ? 'none' : 'underline';
+break;
+}
+});
+}
+function toggleTextAlignment(alignType) {
+var questions = document.querySelectorAll('.question');
+
+questions.forEach(function (question) {
+switch (alignType) {
+case 'align-left-btn':
+// Align text to the left
+question.style.textAlign = 'left';
+break;
+case 'align-center-btn':
+// Align text to the center
+question.style.textAlign = 'center';
+break;
+case 'align-right-btn':
+// Align text to the right
+question.style.textAlign = 'right';
+break;
+case 'align-justify-btn':
+// Justify text
+question.style.textAlign = 'justify';
+break;
+}
+});
+}
+function applyFontStyle(fontName) {
+var questions = document.querySelectorAll('.question');
+questions.forEach(function (question) {
+question.style.fontFamily = fontName;
+});
+}
+
+// PAGE STYLE BOUTON//
+function applyFontButtonStyle(fontButton) {
+var button = document.getElementById('submitB');
+if (button) {
+button.style.fontFamily = fontButton;
+}
+}
+function toggleColor(buttonId) {
+var button = document.getElementById('submitB');
+switch (buttonId) {
+case 'bold-btn2': button.style.fontWeight = button.style.fontWeight === 'bold' ? 'normal' : 'bold';
+break;
+case 'italic-btn2': button.style.fontStyle = button.style.fontStyle === 'italic' ? 'normal' : 'italic';
+break;
+case 'underline-btn2': button.style.textDecoration = button.style.textDecoration === 'underline' ? 'none' : 'underline';
+break;
+}
+}
+function toggleTextButtonAlignment(alignButton) {
+var button = document.getElementById('submitB');
+if (button) {
+switch (alignButton) {
+case 'alignBtn-left-btn': button.style.textAlign = 'left';
+break;
+case 'alignBtn-center-btn': button.style.textAlign = 'center';
+break;
+case 'alignBtn-right-btn': button.style.textAlign = 'right';
+break;
+case 'alignBtn-justify-btn': button.style.textAlign = 'justify';
+break;
+}
+}
+}
+
+
+function toggleSizeButton(sizeType, element) {
+var button = document.getElementById('submitB');
+switch (sizeType) {
+case 'Petit': button.style.padding = '5px 10px';
+break;
+case 'Moy': button.style.padding = '10px 20px';
+break;
+case 'Grand': button.style.padding = '15px 30px';
+break;
+}
+}
+function changeConnexionButtonRadius(radius) {
+document.getElementById('submitB').style.borderRadius = radius + 'px';
+}
+document.addEventListener('DOMContentLoaded', function () {
+const dropZone = document.getElementById('dropZone');
+const observer = new MutationObserver((mutations) => { // Check if the height needs to be adjusted
+if (dropZone.scrollHeight > dropZone.clientHeight) {
+dropZone.style.height = dropZone.scrollHeight + 'px';
+}
+});
+
+observer.observe(dropZone, {
+childList: true, // Observe direct children additions or removals
+subtree: true, // Observe all descendants
+attributes: false,
+characterData: false
+});
+
+// You can also listen for drag-and-drop events or others as per your application needs
+});
+
+
+// Exemple de JavaScript pour capturer la structure du formulaire et l'envoyer
+/*document.getElementById('submitB').addEventListener('click', function() {
+    var formData = {
+        structure: buildFormDataStructure()  // Une fonction hypothétique pour construire la structure du formulaire
+    };
+
+    fetch('/save-form', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Formulaire sauvegardé avec succès:', data))
+    .catch(error => console.error('Erreur lors de la sauvegarde:', error));
+});
+
+function buildFormDataStructure() {
+    // Ici, vous devez implémenter la logique pour parcourir les éléments de formulaire
+    // et construire un objet JSON représentant le formulaire
+    return {
+        fields: [
+            { type: 'email', name: 'email', label: 'Email' },
+            { type: 'tel', name: 'tel', label: 'Tel' },
+            { type: 'text', name: 'adresse', label: 'Adresse' },
+            { type: 'url', name: 'website', label: 'Siteweb' },
+            { type: 'text', name: 'short', label: 'Short text' },
+            { type: 'text', name: 'long', label: 'Long text' },
+            { type: 'radio', name: 'nota', label: 'Notation'},
+            { type: 'number', name: 'class', label: 'Classement' },
+            { type: 'number', name: 'nps', label: 'Net Promoter Score', min: 0, max: 10 },
+            { type: 'number', name: 'matrice', label: 'Matrice' }, 
+			{ type: 'date', name: 'date', label: 'Date' }, 
+			{ type: 'date', name: 'calender', label: 'Calendrier' }, 
+			{ type: 'radio', name: 'yesorno', label: 'YesorNo' },
+			{ type: 'checkbox', name: 'deroule', label: 'deroule' },
+			{ type: 'image', name: 'image', label: 'image' },
+
+            // Ajoutez plus de champs selon la structure du formulaire
+        ]
+    };
+}*/
+
+/*function captureFormData() {
+    let formData = [];
+    document.querySelectorAll('.dragged-element').forEach(element => {
+        let type = element.getAttribute('data-type'); // Exemple: 'text', 'email', etc.
+        let name = element.getAttribute('data-name'); // Le nom du champ
+        let label = element.getAttribute('data-label'); // Le label du champ
+
+        formData.push({ type, name, label });
+    });
+
+    return formData;
+}
+
+document.getElementById('submitB').addEventListener('click', function() {
+    let formData = captureFormData();
+    fetch('/save-form', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ structure: formData })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Form saved successfully', data))
+    .catch(error => console.error('Error saving form:', error));
+});*/
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to create question when Enter is pressed
+    function handleEnterPress(event) {
+       
+            event.preventDefault(); // Prevent the default action of the Enter key
+            createQuestion('short'); // Assuming 'short' is the question type you want to create
+        
+    }
+
+    // Add the event listener to the 'short' input field
+    const shortInput = document.querySelector("input[name='short']");
+    if (shortInput) {
+        shortInput.addEventListener('keydown', handleEnterPress);
+    }
+});
+
+function createQuestion(questionType) {
+    const url = "{{ path('app_question_new', {'projetId': projectId}) }}";
+    
+    // Get the value from the 'short' input field
+    const description = document.querySelector("input[name='short']").value;
+
+    const data = {
+        type: questionType,
+        description: description 
+    };
+
+    axios.post(url, data, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function (response) {
+        console.log('Response:', response.data);
+        alert('Question created successfully! ID: ' + response.data.questionId);
+    }).catch(function (error) {
+        console.error('Error:', error.response ? error.response.data : error.message);
+        alert('Failed to create question: ' + (
+            error.response ? error.response.data.error : error.message
+        ));
+    });
+}
+
+
+
+		</script>
+	</body>
+</html>

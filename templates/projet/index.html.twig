@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Projet index</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link
+		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+		<!-- Bootstrap CSS -->
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+		<style>
+			.center-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 100vh;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg shadow mb-1" style="background: #F5F5FC; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+				<div class="container">
+					<a class="navbar-brand" href="#">LOGO</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link" style="color: #050A78;font-weight: bold;" href="#">Projets</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color: #050A78;font-weight: bold;" href="#">Templates</a>
+							</li>
+							<li class="nav-item">
+								<img src="{{ asset('img/imgg.png')}}" href="#" class="img-fluid mx-2" style="height:40px; width: 40px; border-radius: 40px"/>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color: #050A78;font-weight: bold;" href="{{ path('app_logout') }}">Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- background fet7a -->
+			{% block body %}
+				<div class="row shadow-sm p-5 m-3 mt-3" style="border-radius: 40px; height: 650px; background: #F8FCFF;">
+					<div class="container mt-3">
+						{% for projet in projets %}
+							<div
+								class="mb-4">
+								<!-- Titre du projet -->
+								<h3 class="fw-bold d-sm-block d-none" style="color: #050A78; font-size: 30px;">{{ projet.title }}</h3>
+
+								<!-- Début de la ligne pour les formulaires du projet avec défilement horizontal -->
+								<div class="">
+									{% for formName in projet.formName %}
+										<!-- Carte pour chaque formulaire -->
+										<div class="col-auto">
+											<div class="card shadow-sm" style="width: 18rem;">
+												<div class="card-body">
+													<p class="card-text">{{ formName }}</p>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+
+									<!-- Bouton pour ajouter un nouveau formulaire -->
+									<div class="col-auto">
+										<div class="card-body text-center d-flex justify-content-center align-items-center shadow p-5 ms-2 border-0" style="border-radius: 20px; width: 280px; height: 200px; background: #ffffff;">
+											<button class="btn add-formulaire-btn" data-bs-toggle="modal" data-bs-target="#exampleModaltype" data-projet-id="{{ projet.id }}">
+												<i class="fas fa-plus" style="font-size: 40px; color: #050A78;"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+
+					<!-- Bouton pour créer un nouveau projet -->
+					<div class="text-center mt-3">
+						<a href="#" class="btn" style="background: #050A78; color: white" data-bs-toggle="modal" data-bs-target="#exampleModal">Créer un projet</a>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Votre code pour titre du projet-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content" style="background: #ebebeb; border-radius: 37px;">
+						<div class="modal-header">
+							<h5 class="modal-title fw-bold p-2" style="color: #050A78;" id="exampleModalLabel">Nouveau Projet</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						{{ form_start(form, {'attr': {'class': 'modal-body'}}) }}
+						<!-- Champ pour le titre du projet -->
+						<div class="row mb-3">
+							<div class="col-sm-12">
+								{{ form_label(form.title, 'Titre du projet', {'label_attr': {'class': 'form-label'}}) }}
+								{{ form_widget(form.title, {'attr': {'class': 'form-control form-control-sm', 'style': "border-top: none; border-left: none; border-right: none; border-radius: 0; border-bottom: 1px solid #050A78; background: #ebebeb;"}}) }}
+							</div>
+						</div>
+						<!-- Champ pour le nom du formulaire -->
+						<div class="row mb-3">
+							<div class="col-sm-12">
+								{{ form_label(form.formName, 'Nom du formulaire', {'label_attr': {'class': 'form-label'}}) }}
+								{{ form_widget(form.formName, {'attr': {'class': 'form-control form-control-sm', 'style': "border-top: none; border-left: none; border-right: none; border-radius: 0; border-bottom: 1px solid #050A78; background: #ebebeb;"}}) }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 text-center">
+								<button type="submit" class="btn btn-secondary shadow btn-block ps-5 px-5 p-2 mt-4" style="background: #050A78; border-radius: 12px; color:#ffffff;">
+									{{ button_label|default('Ajouter') }}
+								</button>
+							</div>
+						</div>
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
+
+
+		{% endblock %}
+		<!-- pop up form quiz vote -->
+		<div class="modal fade" id="exampleModaltype" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content p-4" style="background: #ffffff; border-radius: 37px;">
+
+					<div class="modal-header">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+
+						<div
+							class="row">
+							<!-- First Column -->
+							<div class="col-md-6 col-lg-3">
+								<div class="col shadow m-2 border-0" style="border-radius: 20px; background: #ffffff; cursor: pointer;">
+									<div class="row justify-content-center">
+										<div class="col-auto">
+											<img src="{{asset('img/Formulaire.webp')}}" href="#" class="img-fluid" style="height: 200px; width: 200px;"/>
+										</div>
+									</div>
+								</div>
+								<div class="row justify-content-center">
+									<div class="col-auto mt-3">
+										<h3 style="color: #050A78;">Formulaire</h3>
+									</div>
+								</div>
+							</div>
+
+							<!-- Second Column -->
+							<div class="col-md-6 col-lg-3">
+								<div class="col shadow m-2 border-0" style="border-radius: 20px; background: #ffffff; cursor: pointer;">
+									<div class="row justify-content-center">
+										<div class="col-auto">
+											<img src="{{asset('img/Questionnaire.png')}}" href="#" class="img-fluid" style="height: 200px; width: 200px;"/>
+										</div>
+									</div>
+								</div>
+								<div class="row justify-content-center">
+									<div class="col-auto mt-3">
+										<h3 style="color: #050A78;">Questionnaire</h3>
+									</div>
+								</div>
+							</div>
+
+							<!-- Third Column -->
+							<div class="col-md-6 col-lg-3">
+								<div class="col shadow m-2 border-0" style="border-radius: 20px; background: #ffffff; cursor: pointer;">
+									<div class="row justify-content-center">
+										<div class="col-auto">
+											<img src="{{asset('img/Quiz.webp')}}" href="#" class="img-fluid" style="height: 200px; width: 200px;"/>
+										</div>
+									</div>
+								</div>
+								<div class="row justify-content-center">
+									<div class="col-auto mt-3">
+										<h3 style="color: #050A78;">Quiz</h3>
+									</div>
+								</div>
+							</div>
+
+							<!-- Fourth Column -->
+							<div class="col-md-6 col-lg-3">
+								<div class="col shadow m-2 border-0" style="border-radius: 20px; background: #ffffff; cursor: pointer;">
+									<div class="row justify-content-center">
+										<div class="col-auto">
+											<img src="{{ asset('img/vote.webp') }}" href="#" class="img-fluid" style="height: 200px; width: 200px;"/>
+										</div>
+									</div>
+								</div>
+								<div class="row justify-content-center">
+									<div class="col-auto mt-3">
+										<h3 style="color: #050A78;">Vote</h3>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<!-- Row -->
+
+						<div class="row">
+							<div class="col-sm-12 text-center">
+								<button id="ajouterBtn" class="btn btn-secondary shadow btn-block mt-4 px-5 p-2 m-1" style="background: #050A78; border-radius: 12px;" type="button" data-bs-toggle="modal" data-bs-target="#secondModal" disabled>Ajouter</button>
+							</div>
+						</div>
+
+					</div>
+					<!-- modal-body -->
+
+				</div>
+				<!-- modal-content -->
+			</div>
+			<!-- modal-dialog -->
+		</div>
+		<!-- modal fade -->
+
+		<div class="modal fade" id="secondModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content p-4" style="background: #ffffff; border-radius: 37px;">
+					<div class="modal-header d-flex justify-content-center">
+						<h3 class="modal-title fw-bold p-2" style="color: #050A78;" id="exampleModalLabel">Créer un formulaire</h3>
+					</div>
+					<!-- modal-header -->
+
+					<div class="modal-body">
+						<div
+							class="row justify-content-center">
+							<!-- First Button -->
+							<div class="col-12 col-md-4">
+								<button class="col shadow p-5 border-0 d-flex justify-content-center align-items-center m-3" style="border-radius: 20px; width: 100%; max-width: 280px; height: 200px; background: #ffffff; cursor: pointer;" type="button" data-bs-toggle="modal" data-bs-target="#thirdModal">
+									<img src="{{ asset('img/add.webp') }}" style="height: 150px; width: 150px;"/>
+								</button>
+								<h3 class="text-center mt-4" style="color: #050A78;">à partir de zéro</h3>
+							</div>
+
+							<!-- Second Button -->
+							<div class="col-12 col-md-4">
+								<button class="col shadow p-5 border-0 d-flex justify-content-center align-items-center m-3" style="border-radius: 20px; width: 100%; max-width: 280px; height: 200px; background: #ffffff; cursor: pointer;" type="button" data-bs-toggle="modal" data-bs-target="#thirdModal">
+									<img src="{{ asset('img/template.png') }}" style="height: 150px; width: 150px;"/>
+								</button>
+								<h3 class="text-center mt-4" style="color: #050A78;">Utiliser un template</h3>
+							</div>
+
+							<!-- Third Button -->
+							<div class="col-12 col-md-4">
+								<button class="col shadow p-5 border-0 d-flex justify-content-center align-items-center m-3" style="border-radius: 20px; width: 100%; max-width: 280px; height: 200px; background: #ffffff; cursor: pointer;" type="button" data-bs-toggle="modal" data-bs-target="#thirdModal">
+									<img src="{{ asset('img/ai.webp') }}" style="height: 150px; width: 150px;"/>
+								</button>
+								<h3 class="text-center mt-4" style="color: #050A78;">Utiliser AI</h3>
+							</div>
+						</div>
+						<!-- row -->
+					</div>
+					<!-- modal-body -->
+				</div>
+				<!-- modal-content -->
+			</div>
+			<!-- modal-dialog -->
+		</div>
+		<!-- modal -->
+		<!-- Modal Fade -->
+		<div class="modal fade" id="thirdModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content p-4" style="background: #ffffff; border-radius: 37px;">
+					<div class="modal-header d-flex justify-content-center">
+						<h3 class="modal-title fw-bold p-2" style="color: #050A78;" id="exampleModalLabel">Choisissez la mise en page du formulaire</h3>
+					</div>
+					<!-- modal-header -->
+
+					<div class="modal-body">
+						<div
+							class="row justify-content-center">
+							<!-- First Button: Classic Form -->
+							<div class="col-auto">
+								<button class="col shadow p-5 border-0 d-flex justify-content-center align-items-center m-3" style="border-radius: 20px; width: 100%; max-width: 280px; height: 200px; background: #ffffff; cursor: pointer;" type="button">
+									<img src="{{ asset('img/Formulaireclassique.webp') }}" class="" style="height: 200px; width: 200px;"/>
+								</button>
+								<h3 class="text-center mt-4" style="color: #050A78;">Formulaire classique</h3>
+								<h5 class="text-center m-3" style="color: #050A78;">Toutes les questions sur une page</h5>
+							</div>
+
+							<!-- Second Button: Card Form -->
+							<div class="col-auto">
+								<button class="col shadow p-5 border-0 d-flex justify-content-center align-items-center m-3" style="border-radius: 20px; width: 100%; max-width: 280px; height: 200px; background: #ffffff; cursor: pointer;" type="button">
+									<img src="{{ asset('img/Formulaire à cartes.webp') }}" class="" style="height: 200px; width: 200px;"/>
+								</button>
+								<h3 class="text-center mt-4" style="color: #050A78;">Formulaire à cartes</h3>
+								<h5 class="text-center m-3" style="color: #050A78;">Une seule question par page</h5>
+							</div>
+						</div>
+						<!-- row for buttons -->
+
+						<div class="row align-items-center justify-content-end">
+							<div class="col-9">
+								<h5 class="m-4 mt-5 mb-5" style="color: #050A78;">L'utilisateur choisit la pagination</h5>
+							</div>
+							<div class="col-3">
+								<div class="form-check form-switch">
+									<input class="form-check-input" style="width: 60px; height: 30px;" type="checkbox" id="toggleSwitch">
+								</div>
+							</div>
+						</div>
+						<!-- row for pagination toggle -->
+
+						<div class="row justify-content-end">
+							<div class="col-sm-12 text-center">
+								<button class="btn btn-secondary shadow btn-block ps-5 px-5 p-2 mx-5" style="background: #050A78; border-radius: 12px;" type="button">
+									<a href="{{ path('app_projet_index')}}" class="text-reset text-decoration-none">Done</a>
+								</button>
+							</div>
+						</div>
+						<!-- row for done button -->
+					</div>
+					<!-- modal-body -->
+				</div>
+				<!-- modal-content -->
+			</div>
+			<!-- modal-dialog -->
+		</div>
+		<!-- Modal Fade -->
+		<!-- Include Bootstrap JS from CDN -->
+
+		<!-- Custom Script -->
+
+
+			<script>
+document.addEventListener("DOMContentLoaded", function () { // Select all squares within modal-body and the ajouterBtn
+const squares = document.querySelectorAll('.modal-body .col');
+const ajouterBtn = document.getElementById('ajouterBtn');
+
+// Add event listeners for mouse enter, leave, and click on each square
+squares.forEach(square => {
+square.addEventListener('mouseenter', function () { // Add hover effect when mouse enters the square
+square.style.backgroundColor = '#f2f2f2';
+});
+square.addEventListener('mouseleave', function () { // Remove hover effect when mouse leaves the square
+if (!square.classList.contains('selected')) {
+square.style.backgroundColor = '#ffffff';
+}
+});
+square.addEventListener('click', function () { // Handle square selection
+squares.forEach(sqr => {
+sqr.classList.remove('selected');
+sqr.style.backgroundColor = '#ffffff'; // Reset background color of all squares
+});
+square.classList.add('selected');
+square.style.backgroundColor = '#f2f2f2'; // Change background color of selected square
+ajouterBtn.removeAttribute('disabled');
+});
+});
+
+// Reset selection and disable Ajouter button when modal is closed
+const exampleModal = document.getElementById('exampleModal');
+exampleModal.addEventListener('hidden.bs.modal', function () {
+squares.forEach(square => {
+square.classList.remove('selected');
+square.style.backgroundColor = '#ffffff'; // Reset background color of all squares
+});
+ajouterBtn.setAttribute('disabled', 'disabled');
+});
+});
+	</script>
+</body></html>

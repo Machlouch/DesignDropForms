@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<title>Question</title>
+
+{% block body %}
+    <h1>Question</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ question.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ question.type }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ question.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_question_index') }}">back to list</a>
+
+    <a href="{{ path('app_question_edit', {'id': question.id}) }}">edit</a>
+
+    {{ include('question/_delete_form.html.twig') }}
+{% endblock %}

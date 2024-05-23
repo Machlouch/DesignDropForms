@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>login</title>
+			<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+			<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		</head>
+
+
+	<body class="row justify-content-center mx-auto my-auto" style="background: #ffffff; font-family: 'Comfortaa', sans-serif;">
+		<div class="bg-white col-auto shadow p-5 m-3 mt-5" style="border-radius: 40px; height:550px; width:490px;">
+			<div class="row">
+				<div class="btn-group">
+					<button class="btn" style="background: #F5F5FC;">
+						<a href="{{ path('app_register') }}" class="text-reset text-decoration-none">
+							S'inscrire
+						</a>
+					</button>
+					<button class="btn btn-secondary active" style="background: #050A78;">
+						<a href="{{ path('app_login') }}" class="text-reset text-decoration-none">
+							Se Connecter
+						</a>
+					</button>
+				</div>
+			</div>
+
+			<div class="row mx-auto mt-4">
+				<h4 class="fw-light text-center" style="color: #050A78;">
+					Se Connecter
+				</h4>
+			</div>
+
+			<div class="row justify-content-center mx-auto mt-2 ">
+				<button class="mx-auto  btn btn-white shadow-sm border justify-content-between">
+					<i class="fab fa-facebook mx-2" style="color:rgb(8, 8, 211)"></i>
+					S'inscrire avec Facebook
+				</button>
+			</div>
+
+			<div class="row justify-content-center mx-auto mt-3 ">
+				<button class="mx-4   mx-auto  btn btn-white shadow-sm border justify-content-between">
+					<img src="img/g.png" class="img-fluid mx-2" style="height:15px; width: 15px;">
+					S'inscrire avec Google
+				</button>
+			</div>
+
+			
+
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
+
+			<form method="post" action="{{ path('app_login') }}" class="mx-auto mt-4" style="max-width: 400px;">
+				
+				<div class="row mx-auto mt-4">
+					<div class="col">
+						<label for="inputEmail"></label>
+						<input type="email" class="form-control form-control-sm"style=" border-top: none;border-left: none;border-right: none;border-radius: 0;border-bottom: 1px solid #ced0ed ;" id="inputEmail" name="email" placeholder="Adresse Mail" required autofocus>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword"></label>
+					<input type="password" class="form-control form-control-sm"style=" border-top: none;border-left: none;border-right: none;border-radius: 0;border-bottom: 1px solid #ced0ed;" id="inputPassword" name="password" placeholder="Mot de Passe" required>
+
+				</div>
+				<div class="row mx-auto mt-4 justify-content-center">
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				<button type="submit" class="btn btn-secondary shadow btn-block ps-5 px-5" style="background: #050A78;">Se Connecter</button>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

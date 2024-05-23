@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<title>Company index</title>
+
+{% block body %}
+    <h1>Company index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>prenom</th>
+                <th>email</th>
+                <th>mdp</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for company in companies %}
+            <tr>
+                <td>{{ company.nom }}</td>
+                <td>{{ company.prenom }}</td>
+                <td>{{ company.email }}</td>
+                <td>{{ company.mdp }}</td>
+                <td>
+                    <a href="{{ path('app_company_show', {'id': company.id}) }}">show</a>
+                    <a href="{{ path('app_company_edit', {'id': company.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_company_new') }}">Create new</a>
+{% endblock %}

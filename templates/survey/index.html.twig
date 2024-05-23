@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<title>Survey index</title>
+
+{% block body %}
+    <h1>Survey index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Title</th>
+                <th>CreationDate</th>
+                <th>Mode</th>
+                <th>IsStrictMode</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for survey in surveys %}
+            <tr>
+                <td>{{ survey.id }}</td>
+                <td>{{ survey.type }}</td>
+                <td>{{ survey.title }}</td>
+                <td>{{ survey.creationDate ? survey.creationDate|date('Y-m-d') : '' }}</td>
+                <td>{{ survey.mode }}</td>
+                <td>{{ survey.isStrictMode ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_survey_show', {'id': survey.id}) }}">show</a>
+                    <a href="{{ path('app_survey_edit', {'id': survey.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_survey_new') }}">Create new</a>
+{% endblock %}

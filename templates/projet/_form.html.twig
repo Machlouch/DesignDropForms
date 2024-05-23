@@ -1,0 +1,28 @@
+{{ form_start(form, {'attr': {'class': 'modal-body'}}) }}
+    <!-- Stylisation de chaque champ individuellement -->
+    
+        <div class="row mb-3">
+                    <div class="col-sm-12">
+                        {{ form_label(form.title, 'Titre du projet', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control form-control-sm', 'style': "border-top: none; border-left: none; border-right: none; border-radius: 0; border-bottom: 1px solid #050A78; background: #ebebeb;"}}) }}
+                    </div>
+                     <div class="row mb-3">
+                    <div class="col-sm-12">
+                        {{ form_label(form.formName, 'Nom du formulaire', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.formName, {'attr': {'class': 'form-control form-control-sm', 'style': "border-top: none; border-left: none; border-right: none; border-radius: 0; border-bottom: 1px solid #050A78; background: #ebebeb;"}}) }}
+                    </div>
+                </div>
+        </div>
+
+
+    <!-- Bouton de soumission du formulaire -->
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <button type="submit" class="btn btn-secondary shadow btn-block ps-5 px-5 p-2 mt-4"
+                    style="background: #050A78; border-radius: 12px; color:#ffffff;">
+                {{ button_label|default('Ajouter') }}
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }}
+

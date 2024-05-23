@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<title>Design index</title>
+
+{% block body %}
+    <h1>Design index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Logo</th>
+                <th>BackgroundColor</th>
+                <th>BackgroundUrl</th>
+                <th>BackgroundStyle</th>
+                <th>Font</th>
+                <th>Color</th>
+                <th>Fontsize</th>
+                <th>IsBold</th>
+                <th>IsItalic</th>
+                <th>IsUnderline</th>
+                <th>Align</th>
+                <th>CardOpacity</th>
+                <th>CardBackgroundColor</th>
+                <th>CardBorderColor</th>
+                <th>CardBorderSize</th>
+                <th>CardRiduis</th>
+                <th>ButtonBackgroundColor</th>
+                <th>ButtonBorderColor</th>
+                <th>ButtonStyle</th>
+                <th>ButtonRiduis</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for design in designs %}
+            <tr>
+                <td>{{ design.id }}</td>
+                <td>{{ design.logo }}</td>
+                <td>{{ design.backgroundColor }}</td>
+                <td>{{ design.backgroundUrl }}</td>
+                <td>{{ design.backgroundStyle }}</td>
+                <td>{{ design.font }}</td>
+                <td>{{ design.color }}</td>
+                <td>{{ design.fontsize }}</td>
+                <td>{{ design.isBold ? 'Yes' : 'No' }}</td>
+                <td>{{ design.isItalic ? 'Yes' : 'No' }}</td>
+                <td>{{ design.isUnderline ? 'Yes' : 'No' }}</td>
+                <td>{{ design.align }}</td>
+                <td>{{ design.cardOpacity }}</td>
+                <td>{{ design.cardBackgroundColor }}</td>
+                <td>{{ design.cardBorderColor }}</td>
+                <td>{{ design.cardBorderSize }}</td>
+                <td>{{ design.cardRiduis }}</td>
+                <td>{{ design.buttonBackgroundColor }}</td>
+                <td>{{ design.buttonBorderColor }}</td>
+                <td>{{ design.buttonStyle }}</td>
+                <td>{{ design.buttonRiduis }}</td>
+                <td>
+                    <a href="{{ path('app_design_show', {'id': design.id}) }}">show</a>
+                    <a href="{{ path('app_design_edit', {'id': design.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="22">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_design_new') }}">Create new</a>
+{% endblock %}

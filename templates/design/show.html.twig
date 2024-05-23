@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<title>Design</title>
+
+{% block body %}
+    <h1>Design</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ design.id }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>{{ design.logo }}</td>
+            </tr>
+            <tr>
+                <th>BackgroundColor</th>
+                <td>{{ design.backgroundColor }}</td>
+            </tr>
+            <tr>
+                <th>BackgroundUrl</th>
+                <td>{{ design.backgroundUrl }}</td>
+            </tr>
+            <tr>
+                <th>BackgroundStyle</th>
+                <td>{{ design.backgroundStyle }}</td>
+            </tr>
+            <tr>
+                <th>Font</th>
+                <td>{{ design.font }}</td>
+            </tr>
+            <tr>
+                <th>Color</th>
+                <td>{{ design.color }}</td>
+            </tr>
+            <tr>
+                <th>Fontsize</th>
+                <td>{{ design.fontsize }}</td>
+            </tr>
+            <tr>
+                <th>IsBold</th>
+                <td>{{ design.isBold ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsItalic</th>
+                <td>{{ design.isItalic ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsUnderline</th>
+                <td>{{ design.isUnderline ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Align</th>
+                <td>{{ design.align }}</td>
+            </tr>
+            <tr>
+                <th>CardOpacity</th>
+                <td>{{ design.cardOpacity }}</td>
+            </tr>
+            <tr>
+                <th>CardBackgroundColor</th>
+                <td>{{ design.cardBackgroundColor }}</td>
+            </tr>
+            <tr>
+                <th>CardBorderColor</th>
+                <td>{{ design.cardBorderColor }}</td>
+            </tr>
+            <tr>
+                <th>CardBorderSize</th>
+                <td>{{ design.cardBorderSize }}</td>
+            </tr>
+            <tr>
+                <th>CardRiduis</th>
+                <td>{{ design.cardRiduis }}</td>
+            </tr>
+            <tr>
+                <th>ButtonBackgroundColor</th>
+                <td>{{ design.buttonBackgroundColor }}</td>
+            </tr>
+            <tr>
+                <th>ButtonBorderColor</th>
+                <td>{{ design.buttonBorderColor }}</td>
+            </tr>
+            <tr>
+                <th>ButtonStyle</th>
+                <td>{{ design.buttonStyle }}</td>
+            </tr>
+            <tr>
+                <th>ButtonRiduis</th>
+                <td>{{ design.buttonRiduis }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_design_index') }}">back to list</a>
+
+    <a href="{{ path('app_design_edit', {'id': design.id}) }}">edit</a>
+
+    {{ include('design/_delete_form.html.twig') }}
+{% endblock %}

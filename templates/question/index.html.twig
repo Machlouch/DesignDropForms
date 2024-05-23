@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Question Index</title>
+		<style>
+		 body {
+            font-family: 'Comfortaa', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+.question-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.question-label {
+    width: 200px; /* Ajustez cette valeur en fonction de la largeur désirée */
+    margin-right: 10px;
+}
+
+input[type="email"],
+input[type="tel"],
+input[type="text"],
+input[type="date"],
+input[type="url"],
+textarea,
+select {
+    flex: 1;
+}
+
+        .card {
+            background-color: #F8FCFF; /* Light blue background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px; /* Maximum width of the card */
+            text-align: center; /* Centering text */
+            margin: auto; /* Center the card vertically and horizontally */
+        }
+			.custom-radio {
+				height: 20px;
+				width: 20px;
+				background-color: #f1f1f1;
+				border-radius: 50%;
+				display: inline-block;
+				position: relative;
+				margin-right: 10px;
+				vertical-align: middle;
+			}
+			.custom-radio.checked {
+				background-color: #007BFF;
+				box-shadow: 0 0 0 4px rgba(0, 123, 255, .25);
+			}
+			label.custom-radio-label {
+				display: block;
+				cursor: pointer;
+				margin: 10px 0;
+			}
+			input[type="radio"] {
+				display: none;
+			}
+			 input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px; /* Space between question and image box */
+            font-size: 16px;
+            border: none;
+            border-bottom: 1px solid #ced4da; /* Style for bottom border only */
+            border-radius: 0;
+            background-color: transparent; /* Set background to transparent */
+        }
+		 button {
+            padding: 10px 20px;
+            background-color: #050A78; /* Blue background for the button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+		</style>
+	</head>
+	<body>
+	  <div class="card">
+<form action="{{ path('app_answer_new') }}" method="post">
+ {% for question in questions %}
+    <div class="question-container">
+        {% if question.type == 'email' %}
+            <label class="question-label" for="question_{{ question.id }}">{{ question.description }}</label>
+            <input type="email" id="question_{{ question.id }}" name="question_{{ question.id }}" placeholder="Enter your email">
+        {% elseif question.type == 'tel' %}
+            <label class="question-label" for="question_{{ question.id }}">{{ question.description }}</label>
+            <input type="tel" id="question_{{ question.id }}" name="question_{{ question.id }}" placeholder="Enter your phone number">
+        {% elseif question.type == 'adresse' %}
+            <label class="question-label" for="question_{{ question.id }}">{{ question.description }}</label>
+            <input type="text" id="question_{{ question.id }}" name="question_{{ question.id }}" placeholder="adresse">
+        {% elseif question.type == 'date' %}
+            <label class="question-label" for="question_{{ question.id }}">{{ question.description }}</label>
+            <input type="date" id="question_{{ question.id }}" name="question_{{ question.id }}">
+        {% elseif question.type == 'website' %}
+            <label class="question-label" for="question_{{ question.id }}">{{ question.description }}</label>
+            <input type="url" id="question_{{ question.id }}" name="question_{{ question.id }}" placeholder="Enter your website link">
+        {% elseif question.type == 'short' %}
+            <label class="question-label" for="question_{{ question.id }}">{{ question.description }}</label>
+            
+        {% elseif question.type == 'long' %}
+            <label class="question-label" for="question_{{ question.id }}">{{ question.description }}</label>
+            <textarea id="question_{{ question.id }}" name="question_{{ question.id }}" placeholder="Taper Votre Reponce"></textarea>
+        {% elseif question.type == 'yesorno' %}
+            <label class="question-label">{{ question.description }}</label>
+            <label class="custom-radio-label">
+                Yes
+                <input type="radio" id="yes_{{ question.id }}" name="question_{{ question.id }}" value="yes">
+                <span class="custom-radio"></span>
+            </label>
+            <label class="custom-radio-label">
+                No
+                <input type="radio" id="no_{{ question.id }}" name="question_{{ question.id }}" value="no">
+                <span class="custom-radio"></span>
+            </label>
+        {% elseif question.type == 'nota' %}
+            <label class="question-label">{{ question.description }}</label>
+            <div id="ratingSection_{{ question.id }}"></div>
+        {% elseif question.type == 'classe' %}
+            <label class="question-label">{{ question.description }}</label>
+            <div id="rankingSection_{{ question.id }}"></div>
+        {% elseif question.type == 'calender' %}
+            <label class="question-label">{{ question.description }}</label>
+            <div id="dateTimePickerSection_{{ question.id }}"></div>
+        {% elseif question.type == 'deroule' %}
+            <select id="question_{{ question.id }}" name="question_{{ question.id }}">
+                {% for option in question.description|split(',') %}
+                    <option>{{ option }}</option>
+                {% endfor %}
+            </select>
+ {% elseif question.type == 'multiple' %}
+<label class="question-label">{{ question.description }}</label>
+<div id="multipleChoiceSection_{{ question.id }}"></div>
+<div class="multiple-choice-button col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event,'multiple')">
+    <i class="fa-solid fa-circle-check"></i>
+    {{ question.description }}
+</div>
+        {% elseif question.type == 'matrice' %}
+            <label class="question-label">{{ question.description }}</label>
+            <div id="matrixSection_{{ question.id }}"></div>
+        {% elseif question.type == 'net' %}
+            <label class="question-label">{{ question.description }}</label>
+            <div id="netPromoterSection_{{ question.id }}"></div>
+        {% elseif question.type == 'opinion' %}
+            <label class="question-label">{{ question.description }}</label>
+            <div id="opinionSection_{{ question.id }}"></div>
+        {% elseif question.type == 'image' %}
+            <label class="question-label">{{ question.description }}</label>
+            <input type="file" id="question_{{ question.id }}" name="question_{{ question.id }}">
+        {% endif %}
+    </div>
+{% endfor %}
+
+
+    <button type="submit">Submit</button>
+</form>
+
+	</div>	
+		<script>
+			document.querySelectorAll('input[type="radio"]').forEach(radio => {
+              radio.addEventListener('change', function () {
+                  if (this.checked) {
+                  this.nextSibling.classList.add('checked');
+                    }
+                   const allRadios = document.querySelectorAll(`input[name='${this.name }']`);
+                   allRadios.forEach(r => {if (r !== this) {r.nextSibling.classList.remove('checked');} });
+                 
+                });
+             });
+// File: assets/js/ratingSystem.js
+
+function createRatingSystem() {
+    let container = document.createElement("div");
+    container.className = "rating-container";
+    // Create and style the input for entering the ranking question
+    let questionInput = document.createElement("input");
+    
+    // Create a div to hold the stars
+    let rating = document.createElement("div");
+    rating.className = "rating";
+
+    // Create stars and append them to the rating div
+    for (let i = 5; i > 0; i--) {
+        let star = document.createElement("span");
+        star.textContent = '★';
+        star.setAttribute('data-value', i);
+        star.style.cursor = 'pointer';
+        star.style.fontSize = '24px';
+        star.onclick = function () {
+            setRating(rating, i);
+        };
+        rating.appendChild(star);
+    }
+
+    // Append the rating div to the container
+    container.appendChild(rating);
+
+    return container;
+}
+
+function setRating(rating, value) {
+    const stars = rating.querySelectorAll('span');
+    stars.forEach(star => {
+        star.style.color = star.getAttribute('data-value') <= value ? 'orange' : 'gray';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const target = document.getElementById('ratingSection');
+    if (target) {
+        target.appendChild(createRatingSystem());
+    }
+});
+function createDateTimePickerSection() {
+    let container = document.createElement("div"); // Create a div to contain the calendar
+    container.style.padding = "10px"; // Optional style for padding
+
+
+    // Create the date picker input
+    let pickerInput = document.createElement("input");
+    pickerInput.placeholder = "Select date and time"; // Placeholder text
+    pickerInput.style.width = "100%";
+    pickerInput.style.padding = "10px";
+    pickerInput.style.marginTop = "5px";
+    pickerInput.style.fontSize = "16px";
+    pickerInput.style.borderTop = "none";
+    pickerInput.style.borderLeft = "none";
+    pickerInput.style.borderRight = "none";
+    pickerInput.style.borderRadius = "0";
+    pickerInput.style.borderBottom = "1px solid #ced4da"; // Style for bottom border only
+    pickerInput.style.backgroundColor = "transparent"; // Set background to transparent
+    container.appendChild(pickerInput); // Add the date picker input to the container
+
+    // Initialize Flatpickr on the date picker input
+    flatpickr(pickerInput, {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true
+    });
+
+    return container;
+}
+
+
+
+
+ </script>
+	</body>
+</html>

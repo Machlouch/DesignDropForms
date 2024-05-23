@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>inscription creaform</title>
+		<!--<link href="css\bootstrap.min.css" rel="stylesheet">-->
+		<link
+		rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<!--<script src="E:\Desktop\bootstrap\js\bootstrap.min.js"></script>-->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+		<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+		<!--<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
+				        rel="stylesheet">-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa">
+	</head>
+
+
+	<body class="row justify-content-center mx-auto  my-auto " style="background: #ffffff; font-family: 'Comfortaa', sans-serif;">
+
+
+		<div class=" bg-white col-auto shadow p-5 m-3 mt-5   " style="border-radius: 40px;">
+
+        <div class="row">
+
+<div class="btn-group">
+    <button class="btn btn-secondary active" style="background: #050A78;">
+        <a href="{{ path('app_company_new') }}" class="text-reset text-decoration-none">S'inscrire</a>
+    </button>
+    <button class="btn" style="background: #F5F5FC;">
+        <a href="{{ path('app_login') }}" class="text-reset text-decoration-none">Se Connecter</a>
+    </button>
+</div>
+
+        </div>
+
+
+			<div class="row mx-auto mt-4">
+				<h4 class="fw-light text-center" style="color: #050A78;">
+					S'inscrire
+				</h4>
+			</div>
+
+
+			<div class="row justify-content-center mx-auto   mt-2 ">
+
+				<button class="mx-auto  btn btn-white shadow-sm border justify-content-between">
+					<i class=" fab fa-facebook mx-2" style="color:rgb(8, 8, 211)"></i>
+					S'inscrire avec Facebook
+				</button>
+			</div>
+
+			<div class="row justify-content-center mx-auto   mt-3 ">
+
+				<button class="mx-4   mx-auto  btn btn-white shadow-sm border justify-content-between">
+					<img src="{{asset('img/g.png')}}" class="img-fluid mx-2" style="height:15px; width: 15px;">
+					S'inscrire avec Google
+				</button>
+
+			</div>
+
+
+			{{ form_start(form) }}
+
+			<hr class="mt-4">
+
+			<div class="row form-group mx-auto mt-4">
+				<div class="col">
+					
+					{{ form_widget(form.nom, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Nom'}}) }}
+				</div>
+
+				<div class="col">
+					
+					{{ form_widget(form.prenom, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Prénom'}}) }}
+				</div>
+			</div>
+
+			<div class="row mx-auto mt-4">
+				<div class="col">
+					
+					{{ form_widget(form.email, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Adresse Mail'}}) }}
+				</div>
+			</div>
+
+			<div class="row mx-auto mt-4">
+				<div class="col">
+					
+					{{ form_widget(form.mdp, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Mot de Passe'}}) }}
+				</div>
+			</div>
+
+			<div class="row mx-auto mt-4 justify-content-center">
+				<div class="col-auto">
+					<button class="btn btn-secondary shadow btn-block ps-5 px-5" style="background: #050A78;">
+						S'inscrire
+					</button>
+				</div>
+			</div>
+
+			{{ form_end(form) }}
+
+		</div>
+
+	</body>
+
+</html>

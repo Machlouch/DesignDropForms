@@ -1,0 +1,18 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+inscription:
+    path: /inscription
+    controller: App\Controller\CompanyController::index
+
+app_company_connexion:
+    path: /company/connexion
+    controller: App\Controller\CompanyController::connexion
+    methods: ['GET', 'POST']
+
+app_projet_index:
+    path: /projet
+    controller: App\Controller\ProjetController::index    

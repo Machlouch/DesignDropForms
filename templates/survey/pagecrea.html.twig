@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>creaform</title>
+		<!--<link href="css\bootstrap.min.css" rel="stylesheet">-->
+		<link
+		rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<!--<script src="E:\Desktop\bootstrap\js\bootstrap.min.js"></script>-->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+		<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+		<!--<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
+						        rel="stylesheet">-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa">
+    <style>
+        .sidebar {
+            height: 80%;
+            width: 350px;
+            position: fixed;
+            top: 50%;
+            /* Center the sidebar vertically */
+            left: -350px;
+            background-color: #F5F5FC;
+            padding-top: 60px;
+            transition: 0.3s;
+            transform: translateY(-45%);
+            /* Adjust for vertical centering */
+            overflow-y: auto;
+            /* Enable vertical scrollbar */
+            scrollbar-width: thin;
+            /* Set the width of the scrollbar */
+            scrollbar-color: #050A78 #f1f1f1;
+            /* Set the color of the scrollbar track and thumb */
+
+        }
+
+
+        .sidebar.active {
+            left: 0;
+            color: #050A78;
+        }
+
+        .sidebar-header .btn-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            /* Adjust the font size of the close button */
+            padding: 0.15rem 0.25rem;
+            /* Adjust the padding of the close button */
+        }
+
+
+
+        .square {
+            background-color: #ffffff;
+            color: #050A78;
+            text-align: center;
+            line-height: 30px;
+            cursor: move;
+
+        }
+
+
+        .drop-zone {
+            width: 400px;
+            height: 150px;
+            border: 1px dashed #050A78;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+
+        .drop-zone2 {
+            width: 170px;
+            height: 70px;
+            border: 1px dashed #050A78;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+
+
+
+        #sidebar-right {
+            height: 80%;
+            width: 370px;
+            position: fixed;
+            top: 50%;
+            /* Center the sidebar vertically */
+            right: -370px;
+            /* Adjusted to be aligned to the right */
+            background-color: #F5F5FC;
+            padding-top: 60px;
+            transition: 0.3s;
+            transform: translateY(-45%);
+            /* Adjust for vertical centering */
+            overflow-y: auto;
+            /* Enable vertical scrollbar */
+            scrollbar-width: thin;
+            /* Set the width of the scrollbar */
+            scrollbar-color: #050A78 #f1f1f1;
+            /* Set the color of the scrollbar track and thumb */
+
+        }
+
+
+        .small-input1 {
+            font-size: 12px;
+            /* Decrease the font size */
+            padding: 4px;
+            /* Adjust the padding */
+            width: 130px;
+
+        }
+
+
+
+        .buttonss {
+            width: 20px;
+            /* Largeur de la sidebar */
+            height: 100vh;
+            /* Prend toute la hauteur de la vue */
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            /* Pour espacement égal entre les boutons */
+            margin: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttonss button {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            margin: 10px;
+            background: none;
+            border: none;
+            color: #050A78;
+            cursor: pointer;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+
+
+
+
+
+        .button-bar button {
+            margin-right: 10px;
+        }
+
+
+        .radius-button {
+            width: 30px;
+            height: 30px;
+            margin: 0 2px;
+            padding: 0;
+            display: inline-block;
+            vertical-align: middle;
+            border: none;
+        }
+
+
+        .color-picker-container {
+            margin-bottom: 15px;
+            width: 70%;
+            /* Réduction de la largeur des barres à 50% du conteneur */
+            margin-left: auto;
+            /* Centrer les barres dans le conteneur */
+            margin-right: auto;
+        }
+
+
+
+        .color-picker {
+            width: 100%;
+            border: none;
+            padding: 0;
+            height: 38px;
+            /* Hauteur ajustable si nécessaire */
+            cursor: pointer;
+        }
+
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 300px;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header {
+            height: 100px;
+            background-color: #ddd;
+            border-radius: 15px 15px 0 0;
+            margin: -15px;
+            margin-bottom: 15px;
+        }
+
+        .card-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            text-align: center;
+            border-radius: 15px;
+            margin: -15px;
+            margin-top: 15px;
+        }
+
+        /* Add your color styles here */
+        .card.color1 .card-header {
+            background-color: #fabebe;
+        }
+
+        .card.color2 .card-header {
+            background-color: #90ee90;
+        }
+
+        .card.color3 .card-header {
+            background-color: #dda0dd;
+        }
+
+        .card.color4 .card-header {
+            background-color: #add8e6;
+        }
+
+        .card.color1 .card-button {
+            background-color: #dc3545;
+        }
+
+        .card.color2 .card-button {
+            background-color: #28a745;
+        }
+
+        .card.color3 .card-button {
+            background-color: #6f42c1;
+        }
+
+        .card.color4 .card-button {
+            background-color: #17a2b8;
+        }
+
+        .plus-icon {
+            font-size: 1.5rem;
+            /* Increase font size to make the icon bigger */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+
+
+
+
+<body class="row justify-content-center mx-auto  my-auto"
+    style="background: #F8FCFF;font-family: 'Comfortaa', sans-serif;">
+
+    <div class="container">
+
+        <nav class="navbar navbar-expand-lg shadow mb-1"
+            style="background: #F5F5FC; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+            <div class="container">
+                <a class="navbar-brand" href="#">LOGO</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                    <ul class="navbar-nav  mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: #050A78;" href="#">Création</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: #050A78;" href="#">réponses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: #050A78;" href="#">Mes formulaires</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- container -->
+            <div>
+                <a class="nav-link fw-bold  " style="color: #050A78;" href="#">Envoyer</a>
+            </div>
+            <div>
+
+                <img src="{{ asset('img/imgg.png')}}" href="#" class="img-fluid mx-5"
+                    style="height:40px; width: 40px; border-radius: 40px" />
+            </div>
+
+
+        </nav>
+
+
+    </div> <!-- container -->
+
+
+
+
+
+    <div class="row justify-content-between mt-5">
+        <!-- button Sidebar left -->
+        <div class="col-auto"
+            style="background: #F5F5FC ; border-bottom-right-radius: 20px; border-top-right-radius: 20px;">
+            <button class="btn" onclick="toggleSidebar()">
+                <img src="img/+.png" href="#" class="img-fluid mx-5" style="height:30px; width: 30px;" /></button>
+        </div><!-- button Sidebar left -->
+
+
+
+
+        <!-- button Sidebar right -->
+        <div class="col-auto">
+            <div class="sidebar-btn-right col-auto ms-auto " id="sidebar-btn-right"
+                style="background:#F5F5FC;  border-bottom-left-radius: 20px; border-top-left-radius: 20px;">
+                <button class=" btn p-" id="toggle-btn-right" onclick="toggleSidebarRight()">
+                    <img src="img/addbtn.png" href="#" class="img-fluid mx-5" style="height:30px; width: 30px; " />
+                </button>
+            </div>
+        </div> <!-- button Sidebar right -->
+
+    </div> <!--les 2 buttons -->
+
+
+
+
+
+
+
+
+    <!-- Sidebar left -->
+    <div class="sidebar shadow rounded-3" id="sidebar">
+        <div class="sidebar-header">
+            <h5>Informations de contact</h5>
+            <button type="button" class="btn-close" aria-label="Close" onclick="toggleSidebar()"></button>
+        </div>
+        <div class="drag-container p-3" ondrop="drop(event, 'container1')" ondragover="allowDrop(event)">
+            <div class="row">
+                <div id="square1" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Adresse
+                </div>
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Email
+                </div>
+            </div>
+            <div class="row">
+                <div id="square3" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Num tel
+                </div>
+                <div id="square4" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Date</div>
+            </div>
+            <div class="row">
+                <div id="square5" class="col shadow px-4 square rounded-3 m-1" draggable="true"
+                    ondragstart="drag(event)">SiteWeb</div>
+            </div>
+        </div>
+
+        <h5>Choix</h5>
+
+        <div class="drag-container p-3" ondrop="drop(event, 'container1')" ondragover="allowDrop(event)">
+            <div class="row">
+                <div id="square1" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Dérouler
+                </div>
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Oui/non
+                </div>
+            </div>
+            <div class="row">
+                <div id="square1" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Choix multiple
+                </div>
+            </div>
+
+            <div class="row">
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Choix d’image
+                </div>
+            </div>
+
+        </div>
+
+        <h5>Date et planning</h5>
+
+        <div class="drag-container p-3" ondrop="drop(event, 'container1')" ondragover="allowDrop(event)">
+            <div class="row">
+                <div id="square1" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Date
+                </div>
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Calendrier
+                </div>
+            </div>
+
+        </div><!-- Note et classement -->
+
+
+
+
+        <h5>Note et classement</h5>
+
+        <div class="drag-container p-3" ondrop="drop(event, 'container1')" ondragover="allowDrop(event)">
+            <div class="row">
+                <div id="square1" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Matrice
+                </div>
+            </div>
+            <div class="row">
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Net promoter score
+                </div>
+            </div>
+            <div class="row">
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Echelle d’opinion
+                </div>
+            </div>
+            <div class="row">
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Classement
+                </div>
+                <div id="square2" class="col shadow square rounded-3 m-1" draggable="true" ondragstart="drag(event)">
+                    Notation
+                </div>
+            </div>
+        </div><!-- Note et classement -->
+
+    </div><!-- Sidebar left -->
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Sidebar right -->
+
+    <div class="col-auto buttonss button-bar">
+        <button onclick="changeContent('intro')">Intro</button>
+        <button onclick="changeContent('couleur')">Couleur</button>
+        <button onclick="changeContent('style')">Style</button>
+        <button onclick="changeContent('fin')">Fin</button>
+        <button onclick="changeContent('historique')">Historique</button>
+    </div>
+
+    <div id="sidebar-right">
+
+        <div id="content-placeholder">
+
+            <div class="row">
+
+
+
+                <div class="col-auto">
+                    <div class="sidebar-header">
+                        <div class="row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Logo</h4>
+                            <button type="button" class="btn-close" aria-label="Close"
+                                onclick="toggleSidebarRight()"></button>
+                        </div>
+                    </div> <!--sidebar-header -->
+
+                    <div class="row justify-content-center"> <!-- Center the drop zone horizontally -->
+                        <div class="bg-white col-auto m-2" style="border-radius: 20px; height: 100px; width:250px;">
+                            <div class="d-flex justify-content-center align-items-center h-100">
+                                <!-- Center content vertically and horizontally -->
+                                <!-- Drop zone for photos -->
+                                <div class="row drop-zone2" id="photo-drop-zone2" ondrop="dropPhoto(event)"
+                                    ondragover="allowDrop(event)">
+                                    <div style="font-size: 15px;"> Glisser votre logo</div>
+
+                                    <form>
+                                        <div class="form-group">
+                                            <input type="file" class="form-control-file small-input1"
+                                                id="exampleFormControlFile1">
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                            <!-- Your sidebar content here -->
+                        </div>
+                    </div> <!-- dropphoto -->
+
+
+
+                    <!-- Taille 1-->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="taille-buttons">
+                            <button class="btn taille-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Petit </a>
+                            </button>
+                            <button class="btn taille-btn " style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn taille-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Grand </a>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- taille -->
+
+
+
+
+
+
+
+                    <!-- Positionnement -->
+                    <div class="row mt-3 m-2">
+                        <h5 class="fw-bold" style="color: #050A78;">Positionnement</h5>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="positionnement-buttons">
+                            <button class="btn position-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Droite </a>
+                            </button>
+                            <button class="btn position-btn " style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none"> Centre </a>
+                            </button>
+                            <button class="btn position-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Gauche </a>
+                            </button>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="btn-group mt-3" id="align-buttons">
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Haut </a>
+                            </button>
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Centre </a>
+                            </button>
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Bas </a>
+                            </button>
+                        </div>
+                    </div> <!-- Positionnement -->
+
+
+
+                    <!-- titre -->
+                    <div class="row m-2 mt-3">
+                        <h5 class="fw-bold" style="color: #050A78;">Titre</h5>
+                    </div>
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+                        <select id="select" class="form-control">
+                            <option>Comfortaa</option>
+                            <option>Combo</option>
+                            <option>Farro</option>
+                        </select>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- taille 2-->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons">
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div> <!-- taille -->
+
+
+
+
+
+
+
+                    <!-- parametre de texte -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn" onclick="toggleColor('bold-btn')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn" onclick="toggleColor('italic-btn')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn" onclick="toggleColor('underline-btn')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+
+
+
+                    <div class="row mt-5 m-2 fw-bold" style="color: #050A78;">
+                        <div class="col-auto">Bordure</div>
+                        <div class="col-auto">
+                            <button class="btn" id="border-btn" onclick="toggleBorderColor('border-btn')">
+                                <i class="fas fa-border-style"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Description  -->
+                    <div class="row m-2 mt-3">
+                        <h5 class="fw-bold" style="color: #050A78;">Description </h5>
+                    </div>
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+                        <select id="select" class="form-control">
+                            <option>Comfortaa</option>
+                            <option>Combo</option>
+                            <option>Farro</option>
+                        </select>
+                    </div>
+
+
+
+
+
+                    <!-- taille 3 -->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons-1">
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div> <!-- taille -->
+
+
+
+
+
+
+
+                    <!-- parametre de texte 2 -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn-2" onclick="toggleColor('bold-btn-2')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn-2" onclick="toggleColor('italic-btn-2')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn-2" onclick="toggleColor('underline-btn-2')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+
+
+
+                </div> <!-- Sidebar right -->
+
+
+            </div><!--row -->
+        </div><!-- contenu Sidebar right -->
+
+    </div> <!--content-placeholder -->
+
+
+
+
+
+
+
+
+
+
+
+    <!-- the center of the page -->
+    <div class="row justify-content-center">
+        <div class="bg-white col-auto shadow p-5 m-3 mt-5 " style="border-radius: 40px; height: 400px; width: 750px;">
+            <div class="container p-3 mt-3" id="container2" ondrop="drop(event, 'container2')"
+                ondragover="allowDrop(event)">
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <!-- Center content vertically and horizontally -->
+                    <div class="drop-zone" id="dropZone">Faites glisser votre question ici</div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- the center of the page -->
+
+
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- Include Font Awesome icons -->
+    <script>
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+
+
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+
+        function drop(event, containerId) {
+            event.preventDefault();
+            var data = event.dataTransfer.getData("text");
+            var draggableElement = document.getElementById(data);
+            var dropZone = document.getElementById("dropZone");
+
+            // Create a clone of the draggable element
+            var clone = draggableElement.cloneNode(true);
+
+
+
+            // Append the clone to the container
+            document.getElementById(containerId).appendChild(clone);
+
+            // Hide the drop zone after the first item is dropped
+            dropZone.style.display = "none";
+        }
+
+
+
+
+
+
+
+
+
+
+        function toggleSidebarRight() {
+            document.getElementById('sidebar-right').classList.toggle('active');
+        }
+
+
+
+        //sidebarright
+        function toggleSidebarRight() {
+            var sidebarRight = document.getElementById("sidebar-right");
+            var toggleBtnRight = document.getElementById("toggle-btn-right");
+            if (sidebarRight.style.right === '0px') {
+                sidebarRight.style.right = '-370px';
+                toggleBtnRight.style.zIndex = '0'; // Bring the button back in view
+            } else {
+                sidebarRight.style.right = '0px';
+
+            }
+        }
+
+
+
+        // changement color taille logo
+
+        // Get the buttons for Taille
+        const tailleButtons = document.querySelectorAll('.taille-btn');
+
+        // Add event listener to each button for Taille
+        tailleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons for Taille
+                tailleButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Add active class to the clicked button for Taille
+                button.classList.add('active');
+
+                // Change button colors based on active state for Taille
+                tailleButtons.forEach(btn => {
+                    if (btn.classList.contains('active')) {
+                        btn.style.backgroundColor = '#050A78';
+                        btn.style.color = 'white'; // Set text color to white
+                    } else {
+                        btn.style.backgroundColor = '#C2C2E7';
+                        btn.style.color = '#333'; // Set text color to default
+                    }
+                });
+            });
+        });
+
+
+
+
+        //changement color droite gauche positionnement 
+
+        // Get the buttons
+        const buttons = document.querySelectorAll('.position-btn');
+
+        // Add event listener to each button
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                buttons.forEach(btn => btn.classList.remove('active'));
+
+                // Add active class to the clicked button
+                button.classList.add('active');
+
+                // Change button colors based on active state
+                buttons.forEach(btn => {
+                    if (btn.classList.contains('active')) {
+                        btn.style.backgroundColor = '#050A78';
+                        btn.style.color = 'white'; // Set text color to white
+                    } else {
+                        btn.style.backgroundColor = '#C2C2E7';
+                        btn.style.color = '#333'; // Set text color to default
+                    }
+                });
+            });
+        });
+
+
+        // changement color haut bas positionnement 
+
+        // Get the buttons for alignment
+        const alignButtons = document.querySelectorAll('.align-btn');
+
+        // Add event listener to each button for alignment
+        alignButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons for alignment
+                alignButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Add active class to the clicked button for alignment
+                button.classList.add('active');
+
+                // Change button colors based on active state for alignment
+                alignButtons.forEach(btn => {
+                    if (btn.classList.contains('active')) {
+                        btn.style.backgroundColor = '#050A78';
+                        btn.style.color = 'white'; // Set text color to white
+                    } else {
+                        btn.style.backgroundColor = '#C2C2E7';
+                        btn.style.color = '#333'; // Set text color to default
+                    }
+                });
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // changement color taille titre 
+        // Function to toggle size button color and style for the first set
+        function toggleSizeColor(identifier, button) {
+            const sizeButtons = document.querySelectorAll(`.${identifier}`);
+
+            sizeButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.backgroundColor = '#C2C2E7';
+                btn.style.color = '#333';
+            });
+
+            button.classList.add('active');
+            button.style.backgroundColor = '#050A78';
+            button.style.color = 'white';
+        }
+
+
+        //changement color les button mta B U I Positionnement
+
+        function toggleColor(btnId) {
+            const button = document.getElementById(btnId);
+            const currentColor = button.style.backgroundColor;
+
+            if (currentColor === 'rgb(194, 194, 231)') { // Check if color is C2C2E7
+                button.style.backgroundColor = ''; // Reset color to default (transparent)
+            } else {
+                button.style.backgroundColor = '#C2C2E7'; // Change color to C2C2E7
+            }
+        }
+
+
+
+        //changement color taille discription
+
+        function toggleSizeColor1(identifier, button) {
+            const sizeButtons = document.querySelectorAll(`.${identifier}`);
+
+            sizeButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.backgroundColor = '#C2C2E7';
+                btn.style.color = '#333';
+            });
+
+            button.classList.add('active');
+            button.style.backgroundColor = '#050A78';
+            button.style.color = 'white';
+        }
+
+
+
+        //changement the buttons radius
+        function changeConnexionButtonRadius(radius) {
+            var connexionButton = document.getElementById('connexion-button');
+            connexionButton.style.borderRadius = radius + '%';
+        }
+
+
+
+
+
+
+
+        function changeContent(section) {
+      var contentPlaceholder = document.getElementById('content-placeholder');
+      var buttons = document.querySelectorAll('.button-bar button');
+
+      // Remove 'active' class from all buttons
+      buttons.forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+
+      // Add 'active' class to the clicked button
+      event.target.classList.add('active');
+
+      // Switch content based on section
+
+            switch (section) {
+                case 'intro':
+                    // Replace with actual content for 'Intro'
+                    contentPlaceholder.innerHTML = `
+                    <div id="content-placeholder">
+          
+          <div class="row">
+             
+
+
+              <div class="col-auto">
+                  <div class="sidebar-header">
+                      <div class="row mx-2">
+                          <h4 class="fw-bold" style="color: #050A78;">Logo</h4>
+                          <button type="button" class="btn-close" aria-label="Close"
+                              onclick="toggleSidebarRight()"></button>
+                      </div>
+                  </div> <!--sidebar-header -->
+
+                  <div class="row justify-content-center"> <!-- Center the drop zone horizontally -->
+                      <div class="bg-white col-auto m-2" style="border-radius: 20px; height: 100px; width:250px;">
+                          <div class="d-flex justify-content-center align-items-center h-100">
+                              <!-- Center content vertically and horizontally -->
+                              <!-- Drop zone for photos -->
+                              <div class="row drop-zone2" id="photo-drop-zone2" ondrop="dropPhoto(event)"
+                                  ondragover="allowDrop(event)">
+                                  <div style="font-size: 15px;"> Glisser votre logo</div>
+
+                                  <form>
+                                      <div class="form-group">
+                                          <input type="file" class="form-control-file small-input1"
+                                              id="exampleFormControlFile1">
+                                      </div>
+                                  </form>
+
+
+                              </div>
+                          </div>
+                          <!-- Your sidebar content here -->
+                      </div>
+                  </div> <!-- dropphoto -->
+
+
+
+                  
+                    <!-- Taille 1-->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id=taille-btn">
+                            <button class="btn taille-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('taille-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn taille-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('taille-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                           
+                            <button class="btn taille-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('taille-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- taille -->
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- Positionnement -->
+                    <div class="row mt-3 m-2">
+                        <h5 class="fw-bold" style="color: #050A78;">Positionnement</h5>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="positionnement-buttons">
+                            <button class="btn position-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Droite </a>
+                            </button>
+                            <button class="btn position-btn " style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none"> Centre </a>
+                            </button>
+                            <button class="btn position-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Gauche </a>
+                            </button>
+                        </div>
+
+
+
+
+
+                        <div class="btn-group mt-3" id="align-buttons">
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Haut </a>
+                            </button>
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Centre </a>
+                            </button>
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Bas </a>
+                            </button>
+                        </div>
+                    </div> <!-- Positionnement -->
+
+
+
+
+
+
+
+
+
+                  <!-- titre -->
+                    <div class="row m-2 mt-3">
+                        <h5 class="fw-bold" style="color: #050A78;">Titre</h5>
+                    </div>
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+                        <select id="select" class="form-control">
+                            <option>Comfortaa</option>
+                            <option>Combo</option>
+                            <option>Farro</option>
+                        </select>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- taille 2-->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons">
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div> <!-- taille -->
+
+
+
+
+
+
+                    <!-- parametre de texte -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn" onclick="toggleColor('bold-btn')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn" onclick="toggleColor('italic-btn')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn" onclick="toggleColor('underline-btn')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+
+
+
+                    <div class="row mt-5 m-2 fw-bold" style="color: #050A78;">
+                        <div class="col-auto">Bordure</div>
+                        <div class="col-auto">
+                            <button class="btn" id="border-btn" onclick="toggleBorderColor('border-btn')">
+                                <i class="fas fa-border-style"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Description  -->
+                    <div class="row m-2 mt-3">
+                        <h5 class="fw-bold" style="color: #050A78;">Description </h5>
+                    </div>
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+                        <select id="select" class="form-control">
+                            <option>Comfortaa</option>
+                            <option>Combo</option>
+                            <option>Farro</option>
+                        </select>
+                    </div>
+
+
+
+
+                    <!-- taille 3 -->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons-1">
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div> <!-- taille -->
+
+
+                    
+
+
+
+
+
+                    <!-- parametre de texte 2 -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn-2" onclick="toggleColor('bold-btn-2')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn-2" onclick="toggleColor('italic-btn-2')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn-2" onclick="toggleColor('underline-btn-2')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+
+
+
+                </div> <!-- Sidebar right -->
+
+
+            </div><!--row -->
+        </div><!-- contenu Sidebar right -->
+
+    </div> <!--content-placeholder -->
+
+
+
+
+            `;
+                    break;
+                case 'couleur':
+                    // Replace with actual content for 'Couleur'
+                    contentPlaceholder.innerHTML = `
+
+
+
+                    
+                    <div class="color-picker-container row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Arrière plan </h4>
+                        </div>
+                        <div class="row mx-3">
+                       <input type="color" class="color-picker mx-3  col-7 " id="color-picker-1" name="color1" value="#C2C2E7">
+                    
+                      <label class="btn btn-light col-2 fw-bold btn-sm">
+                        <i class="bi bi-image"></i> <span class="plus-icon">+</span>
+                          <input type="file" class="d-none">
+                         </label>
+                      
+                      </div>
+
+
+                      
+
+
+
+
+
+                   <div class="color-picker-container row mx-2">
+                   <h4 class="fw-bold" style="color: #050A78;">Questions</h4>
+                   <div class="row mx-2">
+                      <input type="color" class="color-picker m-2" id="color-picker-2" name="color2" value="#C2C2E7">
+                  </div>
+                </div>
+
+                    <div class="color-picker-container row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Button</h4>
+                            <div class="row m-2 fw-bold" style="color: #050A78;"><div>Texte</div></div>
+                            <div class="row mx-2">
+                    <input type="color" class="color-picker m-2 " id="color-picker-3" name="color3" value="#C2C2E7">
+                    </div>
+                   </div>
+
+                    <div class="color-picker-container row mx-2">
+                   <div class="row m-2 fw-bold" style="color: #050A78;"> <div>Arrière plan</div></div>
+                    <div class="row mx-2">
+                    <input type="color" class="color-picker m-2 " id="color-picker-4" name="color4" value="#C2C2E7">
+                   </div>
+                </div>
+  
+
+
+                <h4 class="fw-bold row mx-2" style="color: #050A78;">Modèle </h4>
+        <div class="card-container justify-content-center ">
+            <div class="card color1 m-3">
+                <div class="card-header"></div>
+                <div class="card-button">text</div>
+            </div>
+            <div class="card color2 m-3">
+                <div class="card-header"></div>
+                <div class="card-button">text</div>
+            </div>
+            <div class="card color3 m-3">
+                <div class="card-header"></div>
+                <div class="card-button">text</div>
+            </div>
+            <div class="card color4 m-3">
+                <div class="card-header"></div>
+                <div class="card-button">text</div>
+            </div>
+        </div>
+
+
+
+
+            `;
+                    break;
+                case 'style':
+                    // Replace with actual content for 'style'
+                    contentPlaceholder.innerHTML = `
+
+                    <div class="sidebar-header">
+                        <div class="row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Questions</h4>
+                            <button type="button" class="btn-close" aria-label="Close"
+                                onclick="toggleSidebarRight()"></button>
+                        </div>
+                    </div> <!--sidebar-header -->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+                        <select id="select" class="form-control">
+                            <option>Comfortaa</option>
+                            <option>Combo</option>
+                            <option>Farro</option>
+                        </select>
+                    </div>
+
+
+                    
+                    <!-- taille 3 -->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons-1">
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn size-btn-1" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor1('size-btn-1', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div> <!-- taille -->
+
+
+
+
+                    <!-- parametre de texte -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn" onclick="toggleColor('bold-btn')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn" onclick="toggleColor('italic-btn')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn" onclick="toggleColor('underline-btn')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+
+                    <!-- Bordure -->
+                    <div class="row mt-3 m-2 fw-bold" style="color: #050A78;">
+                        <div class="col-auto">Bordure</div>
+                        <div class="col-auto">
+                            <button class="btn" id="border-btn" onclick="toggleBorderColor('border-btn')">
+                                <i class="fas fa-border-style"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Buttons -->
+                    <div class="row m-2 mt-3">
+                        <h5 class="fw-bold" style="color: #050A78;">Buttons</h5>
+                    </div>
+
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+                        <select id="select" class="form-control">
+                            <option>Comfortaa</option>
+                            <option>Combo</option>
+                            <option>Farro</option>
+                        </select>
+                    </div>
+
+
+                    <!-- parametre de texte -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn" onclick="toggleColor('bold-btn')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn" onclick="toggleColor('italic-btn')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn" onclick="toggleColor('underline-btn')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+                  
+                    <!-- Arrière plan-->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Arrière plan</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons">
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div> <!-- taille2 -->
+
+                 <!-- Bordure -->
+                    <div class="row mt-3 m-2 fw-bold" style="color: #050A78;">
+                        <div class="col-auto">Bordure</div>
+                        <div class="col-auto">
+                            <button class="btn" id="border-btn" onclick="toggleBorderColor('border-btn')">
+                                <i class="fas fa-border-style"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- Radius  -->
+                    <div class="row mt-3 m-2 fw-bold" style="color: #050A78;">
+                        <div class="col-auto">Radius </div>
+                        <div class="col-auto btn-group">
+                            <button class="btn btn-outline-secondary radius-button" onclick="changeConnexionButtonRadius(0)">
+                        <i class="fas fa-square"></i> <!-- Square icon -->
+                        </button>
+                        <button class="btn btn-outline-secondary radius-button" onclick="changeConnexionButtonRadius(25)">
+                         <i class="fas fa-circle"></i> <!-- Circle icon -->
+                         </button>
+                          <button class="btn btn-outline-secondary radius-button" onclick="changeConnexionButtonRadius(100)">
+                         <i class="fas fa-adjust"></i> <!-- Adjust icon -->
+                         </button>
+                        </div>
+                    </div>
+                    
+                   
+
+
+
+                </div> <!-- Sidebar right -->
+            </div><!--row -->
+        </div><!-- contenu Sidebar right -->
+    </div> <!--content-placeholder -->
+            `;
+                    break;
+                case 'fin':
+                    // Replace with actual content for 'fin '
+                    contentPlaceholder.innerHTML = `
+                    <div class="sidebar-header">
+                        <div class="row mx-2">
+                            <h4 class="fw-bold" style="color: #050A78;">Logo</h4>
+                            <button type="button" class="btn-close" aria-label="Close"
+                                onclick="toggleSidebarRight()"></button>
+                        </div>
+                    </div> <!--sidebar-header -->
+
+                    <div class="row justify-content-center"> <!-- Center the drop zone horizontally -->
+                        <div class="bg-white col-auto m-2" style="border-radius: 20px; height: 100px; width:250px;">
+                            <div class="d-flex justify-content-center align-items-center h-100">
+                                <!-- Center content vertically and horizontally -->
+                                <!-- Drop zone for photos -->
+                                <div class="row drop-zone2" id="photo-drop-zone2" ondrop="dropPhoto(event)"
+                                    ondragover="allowDrop(event)">
+                                    <div style="font-size: 15px;"> Glisser votre logo</div>
+
+                                    <form>
+                                        <div class="form-group">
+                                            <input type="file" class="form-control-file small-input1"
+                                                id="exampleFormControlFile1">
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                            <!-- Your sidebar content here -->
+                        </div>
+                    </div> <!-- dropphoto -->
+
+
+
+
+                    <!-- Taille 1-->
+                    <div class="row m-2">
+                        <h5 class="fw-bold" style="color: #050A78;">Taille</h5>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="taille-buttons">
+                            <button class="btn taille-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Petit </a>
+                            </button>
+                            <button class="btn taille-btn " style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn taille-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Grand </a>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- taille -->
+
+
+
+
+
+
+
+                    <!-- Positionnement -->
+                    <div class="row mt-3 m-2">
+                        <h5 class="fw-bold" style="color: #050A78;">Positionnement</h5>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="positionnement-buttons">
+                            <button class="btn position-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Droite </a>
+                            </button>
+                            <button class="btn position-btn " style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none"> Centre </a>
+                            </button>
+                            <button class="btn position-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Gauche </a>
+                            </button>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="btn-group mt-3" id="align-buttons">
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Haut </a>
+                            </button>
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Centre </a>
+                            </button>
+                            <button class="btn align-btn" style="background: #C2C2E7;"> <a href=""
+                                    class="text-reset text-decoration-none">
+                                    Bas </a>
+                            </button>
+                        </div>
+                    </div> <!-- Positionnement -->
+
+
+
+                    <!-- Description  -->
+                    <div class="row m-2 mt-3">
+                        <h5 class="fw-bold" style="color: #050A78;">Description</h5>
+                    </div>
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Texte </div>
+                    </div>
+                    <div class="row form-group m-2 mt-3 ">
+                        <select id="select" class="form-control">
+                            <option>Comfortaa</option>
+                            <option>Combo</option>
+                            <option>Farro</option>
+                        </select>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- taille 2-->
+                    <div class="row m-2 fw-bold" style="color: #050A78;">
+                        <div>Taille</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group" id="size-buttons">
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Petit </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Moy </a>
+                            </button>
+                            <button class="btn size-btn" style="background: #C2C2E7;"
+                                onclick="toggleSizeColor('size-btn', this)">
+                                <a href="" class="text-reset text-decoration-none"> Grand </a>
+                            </button>
+                        </div>
+                    </div> <!-- taille -->
+
+
+
+
+
+
+
+                    <!-- parametre de texte -->
+                    <div class="text-formatting-bar mt-3 d-flex align-items-center">
+                        <!-- Bold Button -->
+                        <button class="btn" id="bold-btn" onclick="toggleColor('bold-btn')"><i
+                                class="bi bi-type-bold">B</i></button>
+
+                        <!-- Italic Button -->
+                        <button class="btn" id="italic-btn" onclick="toggleColor('italic-btn')"><i
+                                class="bi bi-type-italic">I</i></button>
+
+                        <!-- Underline Button -->
+                        <button class="btn" id="underline-btn" onclick="toggleColor('underline-btn')"><i
+                                class="bi bi-type-underline">U</i></button>
+
+                        <!-- Align Left Button -->
+                        <button class="btn ms-auto" id="align-left-btn"><i class="fas fa-align-left"></i></button>
+
+                        <!-- Align Center Button -->
+                        <button class="btn" id="align-center-btn"><i class="fas fa-align-center"></i></button>
+
+                        <!-- Align Right Button -->
+                        <button class="btn" id="align-right-btn"><i class="fas fa-align-right"></i></button>
+
+                        <!-- Justify Button -->
+                        <button class="btn" id="align-justify-btn"><i class="fas fa-align-justify"></i></button>
+                    </div>
+
+
+
+
+                    <div class="row mt-5 m-2 fw-bold" style="color: #050A78;">
+                        <div class="col-auto">Bordure</div>
+                        <div class="col-auto">
+                            <button class="btn" id="border-btn" onclick="toggleBorderColor('border-btn')">
+                                <i class="fas fa-border-style"></i>
+                            </button>
+                        </div>
+                    </div>
+
+            `;
+                    break;
+            }
+        }
+
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
