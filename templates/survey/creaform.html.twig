@@ -527,11 +527,11 @@
 		<div class="drag-container p-3" ondrop="drop(event)" ondragover="allowDrop(event)">
     <div class="row">
         <span id="shortButton" class="animbutton" draggable="true" ondragstart="drag(event,'short')">
-            <i class="fa-solid fa-grip-lines"></i>
-			        <input type="text" name="short" placeholder="Entrer votre texte" style="width: 100%; padding: 10px; font-size: 16px; margin-bottom: 20px; border: none; outline: none; background-color: transparent;">
-
-           Saisir un Texte 
-        </span>
+    <i class="fa-solid fa-grip-lines"></i>
+    <input id="text-to-change" type="text" class="question" name="short" placeholder="Entrer votre texte" 
+        style="width: 100%; padding: 10px; font-size: 16px; margin-bottom: 20px; border: none; outline: none; background-color: transparent; color: rgb(16, 15, 15);">
+    Saisir un Texte 
+</span>
 		
 					
 				</div>
@@ -1023,6 +1023,7 @@ element.style.borderBottom = "1px solid #ced4da"; // Style for bottom border onl
 element.style.backgroundColor = "transparent"; // Set background to transparent
 break;
 case 'short': 
+    element = createYesNoSection();
     element = document.createElement("input");
     element.type = "text";
     element.placeholder = "TEXT";
@@ -2518,11 +2519,11 @@ contentPlaceholder.innerHTML = `
 
                    <div class="color-picker-container row mx-2">
                    <h4 class="fw-bold" style="color: #050A78;">Questions</h4>
-                   <div class="row mx-2">
-                      <input type="color" class="color-picker m-2" id="color-picker-2" name="color2" value="#C2C2E7" onchange="applyStyle('color', this.value)">
-                  </div>
-                </div>
-
+              
+<div class="row mx-2">
+    <input type="color" class="color-picker m-2" id="color-picker-2" name="color2" value="#C2C2E7" onchange="toggleTextStyleC('color-picker-2')">
+</div>
+<p id="text-to-change">This is the text to change color</p>
                     <div class="color-picker-container row mx-2">
                             <h4 class="fw-bold" style="color: #050A78;">Button</h4>
                             <div class="row m-2 fw-bold" style="color: #050A78;"><div>Texte</div></div>
@@ -2582,7 +2583,9 @@ contentPlaceholder.innerHTML = `
 					</div>
 
 
-                    
+
+
+                </div>
                     <!-- taille 3 -->
                     <div class="row m-2 fw-bold" style="color: #050A78;">
                         <div>Taille</div>
@@ -2980,6 +2983,26 @@ btn.style.backgroundColor = '#C2C2E7'; // Reset all buttons to default
 });
 element.style.backgroundColor = '#A0A0FF'; // Highlight the clicked button
 }
+
+function toggleTextStyleC(colorPickerId) {
+    var colorPicker = document.getElementById(colorPickerId);
+    var selectedColor = colorPicker.value;
+    var textElement = document.getElementById('text-to-change');
+    textElement.style.color = selectedColor;
+}
+
+function toggleTextStyle(colorPickerId) {
+    var colorPicker = document.getElementById(colorPickerId);
+    var selectedColor = colorPicker.value;
+
+    // Apply the selected color to the buttons
+    var buttons = document.getElementsByClassName('size-btn-1');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.color = selectedColor;
+    }
+}
+
+
 function toggleTextStyle(styleType) {
 var questions = document.querySelectorAll('.question');
 
@@ -3190,12 +3213,40 @@ document.addEventListener('DOMContentLoaded', function() {
 function createQuestion(questionType) {
     const url = "{{ path('app_question_new', {'projetId': projectId}) }}";
     
+    // Get the input element
+    const inputElement = document.querySelector("input[name='short']");
+    
     // Get the value from the 'short' input field
-    const description = document.querySelector("input[name='short']").value;
+    const description = inputElement.value;
+    
+    // Extract styles from the input element
+    const styles = window.getComputedStyle(inputElement);
+    const fontFamily = styles.fontFamily;
+    const fontSize = styles.fontSize;
+    const textStyle = `${styles.fontStyle}; ${styles.textDecoration}`;
+    const textAlignment = styles.textAlign;
+
+    // Assuming these are optional or have default values
+    const buttonFontFamily = ''; // Add logic if applicable
+    const buttonTextStyle = ''; // Add logic if applicable
+    const buttonTextAlignment = ''; // Add logic if applicable
+    const buttonBackgroundSize = ''; // Add logic if applicable
+    
+    // Ensure buttonRadius is an integer
+    const buttonRadius = parseInt(styles.borderRadius, 10) || 0; // Adjust if needed to get the correct value
 
     const data = {
         type: questionType,
-        description: description 
+        description: description,
+        fontFamily: fontFamily,
+        fontSize: fontSize,
+        textStyle: textStyle,
+        textAlignment: textAlignment,
+        buttonFontFamily: buttonFontFamily,
+        buttonTextStyle: buttonTextStyle,
+        buttonTextAlignment: buttonTextAlignment,
+        buttonBackgroundSize: buttonBackgroundSize,
+        buttonRadius: buttonRadius, // Make sure this is an integer
     };
 
     axios.post(url, data, {
@@ -3212,6 +3263,7 @@ function createQuestion(questionType) {
         ));
     });
 }
+
 
 
 

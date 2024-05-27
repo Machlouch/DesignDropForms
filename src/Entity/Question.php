@@ -30,6 +30,148 @@ class Question
     #[ORM\Column(length: 255)]
     private ?string $contenu = null;
 
+
+
+    
+    #[ORM\Column(length: 255)]
+    private $fontFamily;
+
+    #[ORM\Column(length: 50)]
+    private $fontSize;
+
+    #[ORM\Column(length: 255)]
+    private $textStyle;
+
+    #[ORM\Column(length: 50)]
+    private $textAlignment;
+
+    #[ORM\Column(length: 255)]
+    private $buttonFontFamily;
+
+    #[ORM\Column(length: 255)]
+    private $buttonTextStyle;
+
+    #[ORM\Column(length: 50)]
+    private $buttonTextAlignment;
+
+    #[ORM\Column(length: 50)]
+    private $buttonBackgroundSize;
+
+    #[ORM\Column(type: 'integer')]
+    private $buttonRadius;
+
+ 
+
+    public function getFontFamily(): ?string
+    {
+        return $this->fontFamily;
+    }
+
+    public function setFontFamily(string $fontFamily): self
+    {
+        $this->fontFamily = $fontFamily;
+
+        return $this;
+    }
+
+    public function getFontSize(): ?string
+    {
+        return $this->fontSize;
+    }
+
+    public function setFontSize(string $fontSize): self
+    {
+        $this->fontSize = $fontSize;
+
+        return $this;
+    }
+
+    public function getTextStyle(): ?string
+    {
+        return $this->textStyle;
+    }
+
+    public function setTextStyle(string $textStyle): self
+    {
+        $this->textStyle = $textStyle;
+
+        return $this;
+    }
+
+    public function getTextAlignment(): ?string
+    {
+        return $this->textAlignment;
+    }
+
+    public function setTextAlignment(string $textAlignment): self
+    {
+        $this->textAlignment = $textAlignment;
+
+        return $this;
+    }
+
+    public function getButtonFontFamily(): ?string
+    {
+        return $this->buttonFontFamily;
+    }
+
+    public function setButtonFontFamily(string $buttonFontFamily): self
+    {
+        $this->buttonFontFamily = $buttonFontFamily;
+
+        return $this;
+    }
+
+    public function getButtonTextStyle(): ?string
+    {
+        return $this->buttonTextStyle;
+    }
+
+    public function setButtonTextStyle(string $buttonTextStyle): self
+    {
+        $this->buttonTextStyle = $buttonTextStyle;
+
+        return $this;
+    }
+
+    public function getButtonTextAlignment(): ?string
+    {
+        return $this->buttonTextAlignment;
+    }
+
+    public function setButtonTextAlignment(string $buttonTextAlignment): self
+    {
+        $this->buttonTextAlignment = $buttonTextAlignment;
+
+        return $this;
+    }
+
+    public function getButtonBackgroundSize(): ?string
+    {
+        return $this->buttonBackgroundSize;
+    }
+
+    public function setButtonBackgroundSize(string $buttonBackgroundSize): self
+    {
+        $this->buttonBackgroundSize = $buttonBackgroundSize;
+
+        return $this;
+    }
+
+    public function getButtonRadius(): ?int
+    {
+        return $this->buttonRadius;
+    }
+
+    public function setButtonRadius(int $buttonRadius): self
+    {
+        $this->buttonRadius = $buttonRadius;
+
+        return $this;
+    }
+
+
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();

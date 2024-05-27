@@ -26,40 +26,54 @@ class QuestionController extends AbstractController
         ]);
     }*/
     #[Route('/new/{projetId}', name: 'app_question_new', methods: ['POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $projetId, ProjetRepository $projetRepository,RouterInterface $router): Response
-    {
-        // Decode the JSON request data
-        $data = json_decode($request->getContent(), true);
-        if (!$data) {
-            return $this->json(['error' => 'Invalid JSON data'], Response::HTTP_BAD_REQUEST);
-        }
-    
-        // Validate the required 'type' data
-        if (!isset($data['type'])) {
-            return $this->json(['error' => 'Missing type'], Response::HTTP_BAD_REQUEST);
-        }
-    
-        $question = new Question();
-        $projet = $projetRepository->find($projetId);
-    
-        if (!$projet) {
-            return $this->json(['error' => 'Project not found'], Response::HTTP_NOT_FOUND);
-        }
-    
-        $question->setProjet($projet);
-        $question->setType($data['type']); // Assuming the Question entity has a setType method.
-        $question->setDescription($data['description']);
-        $entityManager->persist($question);
-        $entityManager->flush();
-
-        $questionUrl = $router->generate('app_question_show', ['id' => $question->getId()], RouterInterface::ABSOLUTE_URL);
-
-        return $this->json([
-            'message' => 'Question created successfully',
-            'questionId' => $question->getId(),
-            'questionUrl' => $questionUrl,
-        ], Response::HTTP_CREATED);
+public function new(Request $request, EntityManagerInterface $entityManager, $projetId, ProjetRepository $projetRepository, RouterInterface $router): Response
+{
+    // Decode the JSON request data
+    $data = json_decode($request->getContent(), true);
+    if (!$data) {
+        return $this->json(['error' => 'Invalid JSON data'], Response::HTTP_BAD_REQUEST);
     }
+
+    // Validate the required 'type' data
+    if (!isset($data['type'])) {
+        return $this->json(['error' => 'Missing type'], Response::HTTP_BAD_REQUEST);
+    }
+
+    $question = new Question();
+    $projet = $projetRepository->find($projetId);
+
+    if (!$projet) {
+        return $this->json(['error' => 'Project not found'], Response::HTTP_NOT_FOUND);
+    }
+
+    $question->setProjet($projet);
+    $question->setType($data['type']);
+    $question->setDescription($data['description']);
+
+    // Set design attributes
+    $question->setFontFamily($data['fontFamily']);
+    $question->setFontSize($data['fontSize']);
+    $question->setTextStyle($data['textStyle']);
+    $question->setTextAlignment($data['textAlignment']);
+    $question->setButtonFontFamily($data['buttonFontFamily']);
+    $question->setButtonTextStyle($data['buttonTextStyle']);
+    $question->setButtonTextAlignment($data['buttonTextAlignment']);
+    $question->setButtonBackgroundSize($data['buttonBackgroundSize']);
+    $question->setButtonRadius($data['buttonRadius']);
+
+    $entityManager->persist($question);
+    $entityManager->flush();
+
+    $questionUrl = $router->generate('app_question_show', ['id' => $question->getId()], RouterInterface::ABSOLUTE_URL);
+
+    return $this->json([
+        'message' => 'Question created successfully',
+        'questionId' => $question->getId(),
+        'questionUrl' => $questionUrl,
+    ], Response::HTTP_CREATED);
+}
+
+    
 
     #[Route('/project/{id}/questionsA' , name:'app_projet_news')]
      
